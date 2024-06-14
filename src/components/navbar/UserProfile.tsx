@@ -30,7 +30,7 @@ const UserProfile = ({ currentUser }: { currentUser: User }) => {
               alt="profile img"
             />
           </div>
-          <h1 className="max-w-[120px] overflow-hidden text-ellipsis">{currentUser.username}</h1>
+          <h1 className="max-w-[120px] overflow-hidden text-ellipsis">{currentUser?.username}</h1>
           {isOpen && (
             <div className="absolute rounded-lg text-white bg-blue-500 shadow-md min-w-max overflow-hidden -right-28 bottom-0 text-sm flex flex-col cursor-pointer">
               <div className="  ">

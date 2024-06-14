@@ -1,20 +1,12 @@
-import { getAllQuizzes } from "@/actions/quizzes"
-
+import { getAllQuizzes } from "@/actions/quizzes";
+import { div } from "@tensorflow/tfjs";
+import Image from "next/image";
 
 const page = async () => {
-  const quizzes = await getAllQuizzes()
+  const quizzes = await getAllQuizzes();
   return (
-    <div>
-      <h1>Leaderboard</h1>
-      <ul>
-        {quizzes.map((quiz) => (
-          <li key={quiz.id}>
-            <a href={`/leaderboard/${quiz.id}`}>{quiz.category}</a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
+    <div>Select</div>
+  );
+};
 
-export default page
+export default page;

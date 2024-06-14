@@ -6,18 +6,20 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
 import { GrClose } from "react-icons/gr";
+import useHeartsStore from "@/hooks/useHeartsStore";
+import useDiamondsStore from "@/hooks/useDiamondsStore";
+import useSuperCoinsStore from "@/hooks/useSuperCoinsStore";
 const LiveCam = dynamic(() => import("./LiveCam"), { ssr: false });
 
 const Quiz = ({
   questions,
   currentUser,
-  params
+  params,
 }: {
   questions: any[];
   currentUser: any;
-  params?: {   submoduleId: string };
+  params?: { submoduleId: string };
 }) => {
-  
   const router = useRouter();
   const [index, setIndex] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(questions[index]);
@@ -28,8 +30,12 @@ const Quiz = ({
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(30);
   const [totalTime, setTotalTime] = useState(0);
-  const [hearts, setHearts] = useState(currentUser?.hearts);
-  const [diamonds, setDiamonds] = useState(currentUser?.diamonds);
+  const [wrongAnswers, setWrongAnswers] = useState(0);
+  const [setOfWrongAnswers, setSetOfWrongAnswers] = useState([]);
+
+  const { hearts, setHearts } = useHeartsStore();
+  const { diamonds, setDiamonds } = useDiamondsStore();
+  const { superCoins, setSuperCoins } = useSuperCoinsStore();
 
   useEffect(() => {
     if (lockCount === 0) {
@@ -77,6 +83,9 @@ const Quiz = ({
 
   useEffect(() => {
     handleVideoPermission();
+    if (currentUser.hearts === 0) {
+      router.push("/shop");
+    }
   }, []);
 
   const handleNextQuestion = () => {
@@ -102,6 +111,7 @@ const Quiz = ({
         setScore(score + 1);
         setDiamonds(diamonds + 5);
       } else {
+        setWrongAnswers(wrongAnswers + 1);
         setHearts(hearts - 1);
       }
     }
@@ -117,6 +127,21 @@ const Quiz = ({
     setTotalTime(0);
   };
 
+  const handleDone = async () => {
+    try { 
+      const response = await axios.post("/api/quiz/updateHeartsDiamonds", {
+        hearts,
+        diamonds,
+      });
+
+      toast("Thank You", { icon: "🤝" });
+      router.back();
+    } catch (e: any) {
+      toast.error("Error submitting quiz");
+      console.log(e);
+    }
+  };
+
   const handleSubmit = async () => {
     try {
       const response = await axios.post("/api/quiz/updateHeartsDiamonds", {
@@ -126,23 +151,11 @@ const Quiz = ({
 
       const response2 = await axios.post("/api/quiz/updateScore", {
         submoduleId: params?.submoduleId,
-        score :score*10,
+        score: score * 10,
       });
 
       toast.success("Quiz submitted successfully");
-      toast((t) => (
-        <span className=" flex items-center ">
-          ❤️ : <b>{hearts}</b> &nbsp; 💎 : <b>{diamonds}</b>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <button
-            onClick={() => toast.dismiss(t.id)}
-            style={{ marginLeft: "10px" }}
-            className="flex items-center justify-center border-l-2 border-gray-500 ps-2 w-6 h-8 "
-          >
-            <GrClose className=" font-bold " />
-          </button>
-        </span>
-      ));
+      router.back();
     } catch (e: any) {
       toast.error("Error submitting quiz");
       console.log(e);
@@ -200,7 +213,10 @@ const Quiz = ({
             <p className="text-2xl text-indigo-900 mb-8">
               Your score is {score}/{questions.length}
             </p>
-            <div className="flex justify-center gap-6">
+            <div
+              className="flex justify-center gap-6"
+              hidden={params?.submoduleId === undefined}
+            >
               {hearts !== 0 ? (
                 <button
                   className="bg-red-500 text-white hover:bg-red-600 font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105"
@@ -211,8 +227,8 @@ const Quiz = ({
                 </button>
               ) : (
                 <button
-                  className="bg-red-500 text-white hover:bg-red-600 font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105"
-                  onClick={()=>router.push("/shop")}
+                  className="bg-violet-500 text-white hover:bg-violet-600 font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105"
+                  onClick={() => router.push("/shop")}
                 >
                   Buy Hearts
                 </button>
@@ -220,14 +236,54 @@ const Quiz = ({
               <button
                 className="bg-green-500 text-white hover:bg-green-600 font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105"
                 onClick={handleSubmit}
+                hidden={params?.submoduleId === undefined}
               >
                 Submit
               </button>
+              <button
+                className="bg-green-500 text-white hover:bg-green-600 font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105"
+                onClick={handleDone}
+                hidden={params?.submoduleId !== undefined}
+              >
+                Done
+              </button>
+            </div>
+            <div
+              hidden={currentUser.hearts === 0}
+              className="mt-8 text-indigo-900"
+            >
+              <h2 className="text-2xl font-bold mb-4">Performance Rating</h2>
+              {wrongAnswers === 0 && (
+                <div className="flex items-center justify-center">
+                  <span className="text-5xl animate-bounce">🏆</span>
+                  <p className="text-3xl font-bold ml-4">
+                    Excellent Performance!
+                  </p>
+                </div>
+              )}
+              {wrongAnswers === 1 && (
+                <div className="flex items-center justify-center">
+                  <span className="text-5xl animate-pulse">😄</span>
+                  <p className="text-3xl font-bold ml-4">Good Performance!</p>
+                </div>
+              )}
+              {wrongAnswers > 1 && wrongAnswers <= 3 && (
+                <div className="flex items-center justify-center">
+                  <span className="text-5xl animate-shake text">😕</span>
+                  <p className="text-3xl font-bold ml-4">Average Performance</p>
+                </div>
+              )}
+              {wrongAnswers > 3 && (
+                <div className="flex items-center justify-center">
+                  <span className="text-5xl animate-shake">😞</span>
+                  <p className="text-3xl font-bold ml-4">Poor Performance</p>
+                </div>
+              )}
             </div>
           </div>
         )}
       </div>
-      <div >
+      <div>
         <Suspense fallback={<div>Loading...</div>}>
           <LiveCam
             lockCount={lockCount}
