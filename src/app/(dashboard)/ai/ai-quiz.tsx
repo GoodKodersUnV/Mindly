@@ -64,7 +64,7 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
   return (
     <div>
       {showQuiz ? (
-        <Quiz questions={response} />
+        <Quiz questions={response} currentUser = {currentUser} />
       ) : (
         <div className="flex h-fit gap-16 mt-16 mx-16 ">
           <div className="w-1/2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg shadow-lg p-8">
