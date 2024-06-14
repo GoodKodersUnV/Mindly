@@ -13,14 +13,12 @@ export default async function Learn() {
           <Link
             href={`/learn/${quiz.id}`}
             key={quiz.id}
-            className="rounded-2xl p-1 bg-primary-700 w-[300px]"
+            className="rounded-2xl p-2 bg-primary-600 w-[300px]"
           >
-            <div className="rounded overflow-hidden">
+            <div className="rounded-2xl overflow-hidden">
               <img
                 src={quiz.image as string} 
-                className="w-full rounded-2xl hover:scale-110 duration-500"
-                // width={100}
-                // height={100}
+                className="w-full rounded-2xl hover:scale-110 duration-500 w-[300px] h-[200px] object-cover"
                 alt="html"
               />
             </div>
