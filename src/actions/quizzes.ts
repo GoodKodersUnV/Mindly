@@ -1,13 +1,19 @@
 import { db } from "@/lib/db";
+import getCurrentUser from "./getCurrentUser";
 
-export const getAllQuizzes = () => {
-  const quizzes = db.quiz.findMany({});
+export const getAllQuizzes = async () => {
+  const quizzes = await db.quiz.findMany({});
   return quizzes;
 };
 
 
-export const getModulesbyQuizId = (quizId: string) => {
-  const modules = db.module.findMany({
+export const getModulesbyQuizId = async (quizId: string) => {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) {
+    return null;
+  }
+
+  const modules =  await db.module.findMany({
     where: {
       quizId: quizId,
     },
@@ -19,11 +25,25 @@ export const getModulesbyQuizId = (quizId: string) => {
       }
     },
   });
+
+  // sort by level 
+
+  // unlock the first module by default and unlock the next module if the previous module is completed
+
+  const score = await db.score.findMany({
+    where: {
+      userId: currentUser.id,
+    },
+    distinct: ['submoduleId'],
+  });
+
+
+
   return modules;
 }
 
-export const getQuestionsByModuleId = (moduleId: string) => {
-  const questions = db.submodule.findMany({
+export const getQuestionsByModuleId = async (moduleId: string) => {
+  const questions = await db.submodule.findMany({
     where: {
       moduleId: moduleId,
     },
@@ -31,8 +51,8 @@ export const getQuestionsByModuleId = (moduleId: string) => {
   return questions;
 }
 
-export const getQuestionsBySubmoduleId = (submoduleId: string) => {
-  const questions = db.submodule.findUnique({
+export const getQuestionsBySubmoduleId = async (submoduleId: string) => {
+  const questions = await db.submodule.findUnique({
     where: {
       id: submoduleId,
     },
