@@ -32,18 +32,80 @@ model User {
 
   account Account[]
   profile Profile?
+
+  Quiz    Quiz[]
+  score   score[]
+
+  hearts   Int @default(10)
+  diamonds Int @default(100)
 }
 
 model Profile {
-  id     String @id @default(uuid())
-  
+  id String @id @default(uuid())
+
   user   User   @relation(fields: [userId], references: [id])
   userId String @unique
 
-  bio             String?
+  bio String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Quiz {
+  id       String   @id @default(uuid())
+  category String
+  modules  Module[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdBy   User?   @relation(fields: [createdByID], references: [id])
+  createdByID String?
+}
+
+model Module {
+  id    String @id @default(uuid())
+  title String
+
+  submodules Submodule[]
+
+  quiz   Quiz   @relation(fields: [quizId], references: [id])
+  quizId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Submodule {
+  id    String @id @default(uuid())
+  level Int
+
+  questions Json
+
+  module   Module @relation(fields: [moduleId], references: [id])
+  moduleId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  score     score[]
+}
+
+model score {
+  id    String @id @default(uuid())
+  score Int
+
+  submodule   Submodule @relation(fields: [submoduleId], references: [id])
+  submoduleId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([submoduleId, userId])
 }
 
 model Account {
