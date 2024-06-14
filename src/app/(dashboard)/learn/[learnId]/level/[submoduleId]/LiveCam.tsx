@@ -113,7 +113,7 @@ function LiveCam({
     timerRef.current = setTimeout(() => {
       setLockCount(fingerCount);
       setIsCountLocked(true);
-    }, 3000);
+    }, 2000);
   };
 
   const resetLockTimer = () => {

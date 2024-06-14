@@ -6,41 +6,52 @@ export const getAllQuizzes = async () => {
   return quizzes;
 };
 
-
 export const getModulesbyQuizId = async (quizId: string) => {
   const currentUser = await getCurrentUser();
   if (!currentUser) {
     return null;
   }
 
-  const modules =  await db.module.findMany({
+  const modules = await db.module.findMany({
     where: {
       quizId: quizId,
     },
     include: {
       submodules: {
-        include:{
-          score:true,
-        }
+        include: {
+          score: true,
+        },
+      },
+    },
+  });
+
+  modules.map((module) => {
+    module.submodules.map((submodule) => {
+      submodule.score = submodule.score.filter(
+        (score) => score.userId === currentUser.id
+      );
+    });
+
+    module.submodules.sort((a, b) => a.level - b.level);
+  });
+
+  let currentLevel = 1;
+  for (let i = 0; i < modules.length; i++) {
+    let found = false;
+    for (let j = 0; j < modules[i].submodules.length; j++) {
+      if (modules[i].submodules[j].score.length > 0) {
+        found = true;
+        currentLevel = modules[i].submodules[j].level + 1;
+        modules[i].submodules[j].isUnlocked = true;
       }
-    },
-  });
+    }
+    if (!found) {
+      break;
+    }
+  }
 
-  // sort by level 
-
-  // unlock the first module by default and unlock the next module if the previous module is completed
-
-  const score = await db.score.findMany({
-    where: {
-      userId: currentUser.id,
-    },
-    distinct: ['submoduleId'],
-  });
-
-
-
-  return modules;
-}
+  return { modules, currentLevel };
+};
 
 export const getQuestionsByModuleId = async (moduleId: string) => {
   const questions = await db.submodule.findMany({
@@ -49,7 +60,7 @@ export const getQuestionsByModuleId = async (moduleId: string) => {
     },
   });
   return questions;
-}
+};
 
 export const getQuestionsBySubmoduleId = async (submoduleId: string) => {
   const questions = await db.submodule.findUnique({
@@ -58,6 +69,7 @@ export const getQuestionsBySubmoduleId = async (submoduleId: string) => {
     },
   });
   return questions;
+
 }
 
 export const updateHeartsDiamonds = async (hearts: number, diamonds: number ) => {
@@ -96,3 +108,42 @@ export const updateScore = async (submoduleId: string, score: number) => {
   })
   return updatedScore;
 }
+
+};
+
+export const leaderboard = async (quizId: string) => {
+  const leaderboard = await db.score.findMany({
+    where: {
+      submodule: {
+        quizId: quizId,
+      },
+    },
+    include: {
+      user: true,
+    },
+  });
+
+  let usersWithScore: any = [];
+
+  leaderboard.forEach((score) => {
+    const userIndex = usersWithScore.findIndex(
+      (user: any) => user.id === score.user.id
+    );
+
+    if (userIndex === -1) {
+      usersWithScore.push({
+        id: score.user.id,
+        name: score.user.name,
+        username: score.user.username,
+        image: score.user.image,
+        score: score.score,
+      });
+    } else {
+      usersWithScore[userIndex].score += score.score;
+    }
+  });
+
+  usersWithScore = usersWithScore.sort((a: any, b: any) => b.score - a.score);
+
+  return usersWithScore;
+};

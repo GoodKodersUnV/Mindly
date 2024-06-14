@@ -5,7 +5,11 @@ import Link from "next/link";
 import "react-circular-progressbar/dist/styles.css";
 import { IoStarSharp } from "react-icons/io5";
 
-const Path = ({buttons,lastUnlockedIndex,params}:any) => {
+const Path = ({ buttons, lastUnlockedIndex, params }: {
+  buttons: any,
+  lastUnlockedIndex: number,
+  params: any
+}) => {
 
 
   const generateCurvedPath = (
@@ -22,81 +26,85 @@ const Path = ({buttons,lastUnlockedIndex,params}:any) => {
   };
 
   return (
-    <div className={`relative flex flex-col my-20 items-center gap-20 ${buttons.length!==0&&"mb-40"}`}>
-        {buttons.length===0 && <div className="">No modules found!</div>}
-      {buttons.map((button, index) => (
-        <div
-          key={button.id}
-          className="relative flex flex-col items-center"
-          style={{ marginLeft: index % 2 === 0 ? "140px" : "-140px" }}
-        >
-          {/* Render curved path for connections */}
-          {index >= 0 && (
-            <svg
-              className="absolute top-0 left-1/2 transform -translate-x-1/2"
-              width="200"
-              height="200"
-            >
-              <path
-                d={generateCurvedPath(100, 0, 100, 200)}
-                stroke="gray"
-                strokeWidth="4"
-                fill="none"
-              />
-            </svg>
-          )}
-          <Link
-            href={`${params.learnId}/level/${button.id}`}
-            aria-disabled={button.locked}
-            style={{ pointerEvents: index>=lastUnlockedIndex ? "none" : "auto" }}
+    <div className={`relative flex flex-col my-20 items-center gap-20 ${buttons.length !== 0 && "mb-40"}`}>
+      {buttons.length === 0 && <div className="">No modules found!</div>}
+      {buttons.map((button) => {
+        const index = button.level - 1;
+        return (
+          <div
+            key={button.id}
+            className="relative flex flex-col items-center"
+            style={{ marginLeft: index % 2 === 0 ? "140px" : "-140px" }}
           >
-            <div className="relative">
-              <div className="h-[102px] w-[102px] relative">
-                {index === lastUnlockedIndex - 1 &&
-                  (index>=lastUnlockedIndex ? (
-                    <div className="absolute -top-6 left-2.5 px-3 py-2.5 border-2 font-bold uppercase text-red-500 bg-white rounded-xl animate-bounce tracking-wide z-10">
-                      Locked
-                      <div className="absolute left-1/2 -bottom-2 w-0 h-0 border-x-8 border-x-transparent border-t-8 transform -translate-x-1/2" />
-                    </div>
-                  ) : (
-                    <div className="absolute -top-6 left-2.5 px-3 py-2.5 border-2 font-bold uppercase text-green-500 bg-white rounded-xl animate-bounce tracking-wide z-10">
-                      Unlocked
-                      <div className="absolute left-1/2 -bottom-2 w-0 h-0 border-x-8 border-x-transparent border-t-8 transform -translate-x-1/2" />
-                    </div>
-                  ))}
-                <CircularProgressbarWithChildren
-                  value={50}
-                  styles={{
-                    path: {
-                      stroke: index>=lastUnlockedIndex ? "#f44336" : "#4caf50",
-                    },
-                    trail: {
-                      stroke: "#e5e7eb",
-                    },
-                  }}
-                >
-                  <button
-                    className={cn(
-                      "h-[70px] hover:h-[80px] hover:w-[80px] w-[70px] rounded-full flex justify-center items-center",
-                      index>=lastUnlockedIndex ? "bg-red-500" : "bg-green-500"
-                    )}
-                    disabled={index>=lastUnlockedIndex}
+            {/* Render curved path for connections */}
+            {index >= 0 && (
+              <svg
+                className="absolute top-0 left-1/2 transform -translate-x-1/2"
+                width="200"
+                height="200"
+              >
+                <path
+                  d={generateCurvedPath(100, 0, 100, 200)}
+                  stroke="gray"
+                  strokeWidth="4"
+                  fill="none"
+                />
+              </svg>
+            )}
+            <Link
+              href={`${params.learnId}/level/${button.id}`}
+              aria-disabled={button.locked}
+              style={{ pointerEvents: buttons.level >= lastUnlockedIndex ? "none" : "auto" }}
+            >
+              <div className="relative">
+                <div className="h-[102px] w-[102px] relative">
+                  {index === lastUnlockedIndex - 1 &&
+                    (index >= lastUnlockedIndex ? (
+                      <div className="absolute -top-6 left-2.5 px-3 py-2.5 border-2 font-bold uppercase text-red-500 bg-white rounded-xl animate-bounce tracking-wide z-10">
+                        Locked
+                        <div className="absolute left-1/2 -bottom-2 w-0 h-0 border-x-8 border-x-transparent border-t-8 transform -translate-x-1/2" />
+                      </div>
+                    ) : (
+                      <div className="absolute -top-6 left-2.5 px-3 py-2.5 border-2 font-bold uppercase text-green-500 bg-white rounded-xl animate-bounce tracking-wide z-10">
+                        Unlocked
+                        <div className="absolute left-1/2 -bottom-2 w-0 h-0 border-x-8 border-x-transparent border-t-8 transform -translate-x-1/2" />
+                      </div>
+                    ))}
+                  <CircularProgressbarWithChildren
+                    value={50}
+                    styles={{
+                      path: {
+                        stroke: index >= lastUnlockedIndex ? "#f44336" : "#4caf50",
+                      },
+                      trail: {
+                        stroke: "#e5e7eb",
+                      },
+                    }}
                   >
-                    <IoStarSharp className="h-9 w-9" />
-                  </button>
-                </CircularProgressbarWithChildren>
-                {index === lastUnlockedIndex - 1 && (
-                  <img
-                    src="https://aaah0mnbncqtinas.public.blob.vercel-storage.com/Dglji0aVej-no-background-AgDKGZ0MQebAMVugNS3ql5mFcvMf6T.png"
-                    alt=""
-                    className="ml-10 mt-2 "
-                  />
-                )}
+                    <button
+                      className={cn(
+                        "h-[70px] hover:h-[80px] hover:w-[80px] w-[70px] rounded-full flex justify-center items-center",
+                        index >= lastUnlockedIndex ? "bg-red-500" : "bg-green-500"
+                      )}
+                      disabled={index >= lastUnlockedIndex}
+                    >
+                      <IoStarSharp className="h-9 w-9" />
+                    </button>
+                  </CircularProgressbarWithChildren>
+                  {index === lastUnlockedIndex - 1 && (
+                    <img
+                      src="https://aaah0mnbncqtinas.public.blob.vercel-storage.com/Dglji0aVej-no-background-AgDKGZ0MQebAMVugNS3ql5mFcvMf6T.png"
+                      alt=""
+                      className="ml-10 mt-2 "
+                    />
+                  )}
+                </div>
               </div>
-            </div>
-          </Link>
-        </div>
-      ))}
+            </Link>
+          </div>
+        )
+      }
+      )}
     </div>
   );
 };
