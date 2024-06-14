@@ -22,6 +22,29 @@ const nextConfig = {
         protocol:"https",
         hostname:"i.pinimg.com",
       }
+      ,
+      {
+        protocol:"https",
+        hostname:"cdn-icons-png.flaticon.com",
+      },
+      {
+        protocol:"https",
+        hostname:"cdn0.iconfinder.com",
+      },
+      {
+        protocol:"https",
+        hostname:"png.pngtree.com",
+      }
+      ,
+      {
+        protocol:"https",
+        hostname:"lordicon.com",
+      }
+      ,
+      {
+        protocol:"https",
+        hostname:"images.rawpixel.com",
+      }
     ],
   },
 };

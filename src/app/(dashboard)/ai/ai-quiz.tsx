@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Quiz from "../learn/[learnId]/level/[submoduleId]/Quiz";
+import useSuperCoinsStore from "@/hooks/useSuperCoinsStore";
 
 
 const AiQuiz = ({ currentUser }: { currentUser: any }) => {
@@ -14,12 +15,11 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
   const [text, setText] = useState("Generate");
   const [loading, setLoading] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
+  const { superCoins, setSuperCoins } = useSuperCoinsStore();
 
   const handleSuperCoins = async (id: string) => {
     try {
-      console.log("supercoins before", currentUser.supercoins);
       const response = await axios.post("/api/superCoins/use", { id });
-      console.log("supercoins after", currentUser.supercoins);
       
     } catch (error) {
       console.error("Error:", error);
@@ -39,7 +39,7 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
         });
 
         await handleSuperCoins(currentUser.id);
-
+        setSuperCoins(superCoins - 1);
         const res = await response.data;
         const validate = res.payload
           .replace(/^```jsonn?/, "")
