@@ -1,8 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+const LiveCam = dynamic(() => import("./LiveCam"), { ssr: false });
+
 
 const Quiz = ({ questions }: { questions: any[] }) => {
   const router = useRouter();
@@ -11,9 +14,25 @@ const Quiz = ({ questions }: { questions: any[] }) => {
   const [score, setScore] = useState(0);
   const [showSummary, setShowSummary] = useState(false);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const [lockCount, setLockCount] = useState(0);
+  const [loading, setLoading] = useState(false);
 
-  const [timer, setTimer] = useState(10000);
+  const [timer, setTimer] = useState(20);
   const [totalTime, setTotalTime] = useState(0);
+
+  useEffect(() => {
+    if (lockCount === 0) {
+      return;
+    }
+    handleOptionClick(lockCount - 1);
+    setTimeout(() => {
+      handleNextQuestion();
+    }, 2000);
+
+    return () => {
+      setLockCount(0);
+    };
+  }, [lockCount]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -80,7 +99,7 @@ const Quiz = ({ questions }: { questions: any[] }) => {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center ">
+    <div className="h-screen flex items-center justify-center gap-20">
       <div className="bg-white rounded-2xl shadow-2xl w-[600px] relative p-8">
         {!showSummary ? (
           <>
@@ -101,13 +120,12 @@ const Quiz = ({ questions }: { questions: any[] }) => {
               {currentQuestion.options.map((option: string, i: number) => (
                 <button
                   key={i}
-                  className={`${
-                    selectedOption === i
+                  className={`${selectedOption === i
                       ? i === currentQuestion.answer - 1
                         ? "bg-green-500 text-white hover:bg-green-600"
                         : "bg-red-500 text-white hover:bg-red-600"
                       : "bg-indigo-500 text-white hover:bg-indigo-600"
-                  } text-lg font-bold py-4 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105`}
+                    } text-lg font-bold py-4 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105`}
                   onClick={() => handleOptionClick(i)}
                   disabled={selectedOption !== null}
                 >
@@ -139,13 +157,18 @@ const Quiz = ({ questions }: { questions: any[] }) => {
               </button>
               <button
                 className="bg-green-500 text-white hover:bg-green-600 font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105"
-                onClick={() => {}}
+                onClick={() => { }}
               >
                 Submit
               </button>
             </div>
           </div>
         )}
+      </div>
+      <div>
+        <Suspense fallback={<div>Loading...</div>}>
+          <LiveCam  lockCount={lockCount} setLockCount={setLockCount} loading={loading} setLoading={setLoading} />
+        </Suspense>
       </div>
     </div>
   );

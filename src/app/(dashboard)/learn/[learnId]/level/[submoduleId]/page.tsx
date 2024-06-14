@@ -7,7 +7,7 @@ const page = async ({ params }: {
 }) => {
   const submodule = await getQuestionsBySubmoduleId(params.submoduleId);
   return (
-    <Quiz questions={submodule?.questions?.questions } />
+    <Quiz questions={submodule?.questions?.questions! } />
   )
 }
 export default page
