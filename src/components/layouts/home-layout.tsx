@@ -39,17 +39,11 @@ export default function HomeLayout({
     },
   ];
   return (
-    <div className="w-full">
-      <Navbar currentUser={currentUser} menu={menu} setMenu={setMenu} />
-      <div className="flex">
-        <Sidebar items={items} menu={menu} setMenu={setMenu} />
-        <Suspense fallback={<Loading />}>
-          <div
-            className={`w-full ${menu ? "sm:pl-48" : "sm:pl-20"}`}
-          >
-            {children}
-          </div>
-        </Suspense>
+    <div className="w-full flex">
+      <Sidebar items={items} menu={menu} setMenu={setMenu} currentUser={currentUser}/>
+      <div className={`w-full`}>
+        <Navbar currentUser={currentUser} menu={menu} setMenu={setMenu} />
+        <Suspense fallback={<Loading />}>{children}</Suspense>
       </div>
     </div>
   );
