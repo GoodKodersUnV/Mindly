@@ -31,7 +31,7 @@ export default function HomeLayout({
     {
       name: "Leaderboard",
       icon: <GiGraduateCap />,
-      path: "/leaderboard",
+      path: "/leaderboard/4d51951a-01f8-4b8c-b3bd-a90513a6be29",
     },
     {
       name: "Ai",
