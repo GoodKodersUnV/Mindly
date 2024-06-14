@@ -119,10 +119,10 @@ const Quiz = ({
 
   const handleSubmit = async () => {
     try {
-      // const response = await axios.post("/api/quiz/updateHeartsDiamonds", {
-      //   hearts,
-      //   diamonds,
-      // });
+      const response = await axios.post("/api/quiz/updateHeartsDiamonds", {
+        hearts,
+        diamonds,
+      });
 
       const response2 = await axios.post("/api/quiz/updateScore", {
         submoduleId: params?.submoduleId,
@@ -227,7 +227,7 @@ const Quiz = ({
           </div>
         )}
       </div>
-      {/* <div >
+      <div >
         <Suspense fallback={<div>Loading...</div>}>
           <LiveCam
             lockCount={lockCount}
@@ -236,7 +236,7 @@ const Quiz = ({
             setLoading={setLoading}
           />
         </Suspense>
-      </div> */}
+      </div>
     </div>
   );
 };
