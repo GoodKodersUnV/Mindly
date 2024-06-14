@@ -17,7 +17,10 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
 
   const handleSuperCoins = async (id: string) => {
     try {
+      console.log("supercoins before", currentUser.supercoins);
       const response = await axios.post("/api/superCoins/use", { id });
+      console.log("supercoins after", currentUser.supercoins);
+      
     } catch (error) {
       console.error("Error:", error);
     }
@@ -35,6 +38,8 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
           difficulty,
         });
 
+        await handleSuperCoins(currentUser.id);
+
         const res = await response.data;
         const validate = res.payload
           .replace(/^```jsonn?/, "")
@@ -44,7 +49,6 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
         setLoading(false);
         setText("Generate");
         toast.success("Questions generated successfully");
-        handleSuperCoins(currentUser.id);
         setShowQuiz(true);
       } catch (error) {
         console.error("Error:", error);
@@ -62,17 +66,17 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
       {showQuiz ? (
         <Quiz questions={response} />
       ) : (
-        <div className="flex h-fit gap-16 mt-16 mx-16">
+        <div className="flex h-fit gap-16 mt-16 mx-16 ">
           <div className="w-1/2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg shadow-lg p-8">
             <div className="mb-4">
               <label
-                className="block text-white font-bold mb-2"
+                className="block text-white font-bold mb-2 "
                 htmlFor="topic"
               >
                 Topic
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline transition-all duration-300 ease-in-out"
+                className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline transition-all duration-300 ease-in-out"
                 id="topic"
                 type="text"
                 value={topic}
@@ -88,7 +92,7 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
                 Number of questions
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline transition-all duration-300 ease-in-out"
+                className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline transition-all duration-300 ease-in-out"
                 id="nQuestions"
                 type="number"
                 value={nQuestions}
@@ -104,12 +108,12 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
                 Difficulty
               </label>
               <select
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline transition-all duration-300 ease-in-out"
+                className="shadow dark:bg-[#121212] appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline transition-all duration-300 ease-in-out"
                 id="difficulty"
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value)}
               >
-                <option value="easy">Easy</option>
+                <option value="easy" >Easy</option>
                 <option value="medium">Medium</option>
                 <option value="hard">Hard</option>
               </select>
