@@ -33,11 +33,12 @@ model User {
   account Account[]
   profile Profile?
 
-  Quiz    Quiz[]
-  score   score[]
+  Quiz  Quiz[]
+  score score[]
 
   hearts   Int @default(10)
   diamonds Int @default(100)
+  supercoins Int @default(3)
 }
 
 model Profile {
@@ -60,8 +61,9 @@ model Quiz {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  createdBy   User?   @relation(fields: [createdByID], references: [id])
+  createdBy   User?       @relation(fields: [createdByID], references: [id])
   createdByID String?
+  Submodule   Submodule[]
 }
 
 model Module {
@@ -83,13 +85,18 @@ model Submodule {
 
   questions Json
 
+  quiz   Quiz   @relation(fields: [quizId], references: [id])
+  quizId String
+
   module   Module @relation(fields: [moduleId], references: [id])
   moduleId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  score     score[]
+  score score[]
+
+  @@unique([quizId, level])
 }
 
 model score {
