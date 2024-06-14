@@ -12,7 +12,11 @@ export const getModulesbyQuizId = (quizId: string) => {
       quizId: quizId,
     },
     include: {
-      submodules: true,
+      submodules: {
+        include:{
+          score:true,
+        }
+      }
     },
   });
   return modules;
