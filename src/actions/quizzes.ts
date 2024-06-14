@@ -69,16 +69,16 @@ export const getQuestionsBySubmoduleId = async (submoduleId: string) => {
     },
   });
   return questions;
+};
 
-}
-
-export const updateHeartsDiamonds = async (hearts: number, diamonds: number ) => {
+export const updateHeartsDiamonds = async (
+  hearts: number,
+  diamonds: number
+) => {
   const currentUser = await getCurrentUser();
   if (!currentUser) {
     return null;
   }
-
-  
 
   const updatedUser = await db.user.update({
     where: {
@@ -91,7 +91,7 @@ export const updateHeartsDiamonds = async (hearts: number, diamonds: number ) =>
   });
 
   return updatedUser;
-}
+};
 
 export const updateScore = async (submoduleId: string, score: number) => {
   const currentUser = await getCurrentUser();
@@ -105,9 +105,10 @@ export const updateScore = async (submoduleId: string, score: number) => {
       submoduleId: submoduleId,
       score: score,
     },
-  })
+  });
   return updatedScore;
 }
+
 
 
 export const leaderboard = async (quizId: string) => {
