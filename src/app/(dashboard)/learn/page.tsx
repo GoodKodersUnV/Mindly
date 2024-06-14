@@ -9,9 +9,11 @@ export default async function Learn() {
       <h1 className="text-3xl font-bold">Start Learning</h1>
       <div className="flex flex-wrap gap-4 py-8">
         {quizzes.map((quiz) => (
-          <Link href={`/learn/${quiz.id}`} key={quiz.id} className="rounded-2xl p-2 border w-[300px]">
-            <div className="rounded border w-full h-[150px] text-center pt-16">Image</div>
-            <h1 className="text-2xl pt-4 text-center">{quiz.category}</h1>
+          <Link href={`/learn/${quiz.id}`} key={quiz.id} className="bg-white p-2 max-w-sm rounded overflow-hidden shadow-lg" >
+              <img className="w-[300px]" src="https://v1.tailwindcss.com/img/card-top.jpg" alt="image not available"/>
+              <div className="pt-4">
+                <span className="inline-block bg-gray-200 rounded-full px-3 py-2 text-sm font-semibold text-gray-700 mr-2 mb-2">#{quiz.category}</span>
+              </div>
           </Link>
         ))}
       </div>
