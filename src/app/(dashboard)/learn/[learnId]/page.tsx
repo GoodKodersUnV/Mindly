@@ -20,10 +20,13 @@ const page = async ({ params }: { params: { learnId: string } }) => {
             </div>
             <div className="my-10  ">
               {module.submodules.map((submodule, index) => {
-                  // it should be curved like a game candy crush or something roadmap like curved 
+                // it should be curved like a game candy crush or something roadmap like curved
                 const pad = index % 2 === 0 ? "8" : "2";
                 return (
-                  <div key={submodule.id} className={`my-6 p-${pad} mx-[300px] `}>
+                  <div
+                    key={submodule.id}
+                    className={`my-6 p-${pad} mx-[300px] `}
+                  >
                     <Link
                       className="rounded-full border p-2"
                       href={`${params.learnId}/level/${submodule.id}`}
