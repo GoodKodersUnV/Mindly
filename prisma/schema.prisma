@@ -67,6 +67,7 @@ model Submodule {
   questions Json
   quizId    String
   moduleId  String
+  isUnlocked Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   module    Module   @relation(fields: [moduleId], references: [id])
