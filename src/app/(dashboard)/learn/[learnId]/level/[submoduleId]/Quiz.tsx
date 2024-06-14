@@ -17,7 +17,7 @@ const Quiz = ({ questions }: { questions: any[] }) => {
   const [lockCount, setLockCount] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const [timer, setTimer] = useState(20);
+  const [timer, setTimer] = useState(30);
   const [totalTime, setTotalTime] = useState(0);
 
   useEffect(() => {
