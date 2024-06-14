@@ -4,10 +4,10 @@ import Link from "next/link";
 import React from "react";
 
 const page = async ({ params }: { params: { learnId: string } }) => {
-  const modules = await getModulesbyQuizId(params.learnId);
+  const { modules, currentLevel }: any = await getModulesbyQuizId(params.learnId);
   return (
     <div className="w-1/2 p-4">
-      {modules.map((module,index) => (
+      {modules.map((module: any, index: number) => (
         <div key={module.id}>
           <div>
             <div className="rounded-xl bg-primary-700 border-b-4 border-l-4 text-primary-200 border-primary-900 flex justify-between items-center p-4">
@@ -24,7 +24,7 @@ const page = async ({ params }: { params: { learnId: string } }) => {
             <div className="">
               <Path
                 buttons={module.submodules}
-                lastUnlockedIndex={index===2?1:5}
+                lastUnlockedIndex={currentLevel}
                 params={params}
               />
             </div>
