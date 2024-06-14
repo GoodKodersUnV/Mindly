@@ -1,10 +1,10 @@
 "use client"
 import Image from "next/image";
 import { useState } from "react";
-import { FaRupeeSign } from "react-icons/fa";
-import { FaCoins } from "react-icons/fa";
-
+import { FaHeart } from "react-icons/fa6";
+import { IoDiamond } from "react-icons/io5";
 import Script from 'next/script';
+import { RxCross2 } from "react-icons/rx";
 
 const Premium = () => {
     const secret = 22071;
@@ -119,62 +119,70 @@ const Premium = () => {
                 <div className="bg-orange-400 p-1 rounded-[50px] w-[35%]">
                     <div className="bg-orange-600 p-1 rounded-[50px]">
                         <div className="flex flex-col gap-3 bg-orange-200 rounded-[50px] p-5">
-                            <div className="bg-white rounded-full p-1">
-                                <div className="flex px-6 justify-between bg-orange-300 text-black rounded-full p-4"> 
-                                    <div>Hello</div>
-                                    <div>Hello</div> 
-                                    <div>Hello</div> 
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><FaHeart className="h-6 w-6 text-red-500"/><RxCross2 className="h-5 w-5"/> 1</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 1</div>
                                 </div>
                             </div>
-                            <div className="bg-white rounded-full p-1">
-                                <div className="bg-orange-300 text-black rounded-full p-4"> 
-                                    Hello 
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><FaHeart className="h-6 w-6 text-red-500"/><RxCross2 className="h-5 w-5"/> 2</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 2</div>
                                 </div>
                             </div>
-                            <div className="bg-white rounded-full p-1">
-                                <div className="bg-orange-300 text-black rounded-full p-4"> 
-                                    Hello 
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><FaHeart className="h-6 w-6 text-red-500"/><RxCross2 className="h-5 w-5"/> 3</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 3</div>
                                 </div>
                             </div>
-                            <div className="bg-white rounded-full p-1">
-                                <div className="bg-orange-300 text-black rounded-full p-4"> 
-                                    Hello 
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><FaHeart className="h-6 w-6 text-red-500"/><RxCross2 className="h-5 w-5"/> 4</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 4</div>
                                 </div>
                             </div>
-                            <div className="bg-white rounded-full p-1">
-                                <div className="bg-orange-300 text-black rounded-full p-4"> 
-                                    Hello 
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><FaHeart className="h-6 w-6 text-red-500"/><RxCross2 className="h-5 w-5"/> 5</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 5</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="bg-orange-400 p-1 rounded-3xl w-[35%]">
-                    <div className="bg-orange-600 p-1 rounded-3xl">
-                        <div className="flex flex-col gap-3 bg-orange-300 rounded-3xl p-5">
-                            <div className="bg-white rounded-xl p-1">
-                                <div className="bg-orange-300 text-black rounded-xl p-4"> 
-                                    Hello 
+                <div className="bg-orange-400 p-1 rounded-[50px] w-[35%]">
+                    <div className="bg-orange-600 p-1 rounded-[50px]">
+                        <div className="flex flex-col gap-3 bg-orange-200 rounded-[50px] p-5">
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><Image src="/coin.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 1</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 1</div>
                                 </div>
                             </div>
-                            <div className="bg-white rounded-xl p-1">
-                                <div className="bg-orange-300 text-black rounded-xl p-4"> 
-                                    Hello 
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><Image src="/coin.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 2</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 2</div>
                                 </div>
                             </div>
-                            <div className="bg-white rounded-xl p-1">
-                                <div className="bg-orange-300 text-black rounded-xl p-4"> 
-                                    Hello 
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><Image src="/coin.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 3</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 3</div>
                                 </div>
                             </div>
-                            <div className="bg-white rounded-xl p-1">
-                                <div className="bg-orange-300 text-black rounded-xl p-4"> 
-                                    Hello 
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><Image src="/coin.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 4</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 4</div>
                                 </div>
                             </div>
-                            <div className="bg-white rounded-xl p-1">
-                                <div className="bg-orange-300 text-black rounded-xl p-4"> 
-                                    Hello 
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><Image src="/coin.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 5</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 5</div>
                                 </div>
                             </div>
                         </div>
