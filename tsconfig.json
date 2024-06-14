@@ -28,6 +28,6 @@
     },
     "target": "ES2017"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts","next-auth.d.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts","next-auth.d.ts", "src/hooks/useDiamondsStore.js", "src/hooks/useHeartsStore.js"],
   "exclude": ["node_modules"]
 }

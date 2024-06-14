@@ -19,16 +19,16 @@ const Path = ({ buttons, lastUnlockedIndex, params }: {
     endY: any
   ) => {
     const controlX1 = startX + (endX - startX) / 2;
-    const controlY1 = startY - 50; // Adjust this value for more curvature
+    const controlY1 = startY - 50; 
     const controlX2 = startX + (endX - startX) / 2;
-    const controlY2 = endY + 50; // Adjust this value for more curvature
+    const controlY2 = endY + 50; 
     return `M ${startX} ${startY} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${endX} ${endY}`;
   };
 
   return (
     <div className={`relative flex flex-col my-20 items-center gap-20 ${buttons.length !== 0 && "mb-40"}`}>
       {buttons.length === 0 && <div className="">No modules found!</div>}
-      {buttons.map((button) => {
+      {buttons.map((button : any) => {
         const index = button.level - 1;
         return (
           <div
