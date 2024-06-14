@@ -5,6 +5,7 @@ import { RxDashboard } from "react-icons/rx";
 import { SiGooglegemini } from "react-icons/si";
 import { FaShop } from "react-icons/fa6";
 import { GiGraduateCap } from "react-icons/gi";
+import { MdOutlineLeaderboard } from "react-icons/md";
 import { Suspense, useState } from "react";
 import Loading from "@/app/(dashboard)/loading";
 import { User } from "@/types/user";
@@ -30,11 +31,11 @@ export default function HomeLayout({
     },
     {
       name: "Leaderboard",
-      icon: <GiGraduateCap />,
+      icon: <MdOutlineLeaderboard />,
       path: "/leaderboard",
     },
     {
-      name: "Ai",
+      name: "Ai Quiz",
       icon: <SiGooglegemini />,
       path: "/ai",
     },
