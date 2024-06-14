@@ -1,9 +1,7 @@
 "use client";
-import React, { Dispatch, SetStateAction, useState } from "react";
-import UserProfile from "./UserProfile";
+import React, { Dispatch, SetStateAction } from "react";
 import ThemeSwitch from "./ThemeSwitch";
 import {  useRouter } from "next/navigation";
-import Link from "next/link";
 import { User } from "@/types/user";
 import Image from "next/image";
 interface Props {

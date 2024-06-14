@@ -29,6 +29,11 @@ export default function HomeLayout({
       path: "/learn",
     },
     {
+      name: "Leaderboard",
+      icon: <GiGraduateCap />,
+      path: "/leaderboard",
+    },
+    {
       name: "Ai",
       icon: <SiGooglegemini />,
       path: "/ai",

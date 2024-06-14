@@ -1,9 +1,10 @@
 "use client"
 import Image from "next/image";
 import { useState } from "react";
-import { FaRupeeSign } from "react-icons/fa";
-
+import { FaHeart } from "react-icons/fa6";
+import { IoDiamond } from "react-icons/io5";
 import Script from 'next/script';
+import { RxCross2 } from "react-icons/rx";
 
 const Premium = () => {
     const secret = 22071;
@@ -109,110 +110,86 @@ const Premium = () => {
 
     return (
         <>
-            <Script
+            {/* <Script
                 id="razorpay-checkout-js"
                 src="https://checkout.razorpay.com/v1/checkout.js"
-            />
-            <div className="flex gap-8 items-center m-8 mt-12 dark:text-black">
-                <div className="w-1/3 rounded-lg flex flex-col justify-between border border-blue-600 h-[550px] bg-orange-50 p-5">
-                    <div className="flex gap-2 items-center">
-                        <Image src="/basic.png" alt="coin" width={40} height={40} />
-                        <h1 className="text-2xl font-bold">Basic</h1>
-                    </div>
-                    <div className="flex gap-2 items-center">
-                        <h1>Get a </h1>
-                        <Image src="/coin.png" alt="coin" width={30} height={30} />
-                        <h1 className="flex items-center">for &nbsp; <FaRupeeSign />5 each</h1>
-                    </div>
-                    <div className="text-md font-semibold">
-                        <h1>Daily 3 tokens are additionally allocated</h1>
-                        <h1>Custom quiz generation</h1>
-                        <h1>Token purchase option</h1>
-                        <h1>.</h1>
-                        <h1>.</h1>
-                    </div>
-                    <div>
-                        <input type="number" value={tokens} min={1} max={1000} className="outline-none block m-auto rounded-xl w-20 text-center text-md px-4 py-2" onChange={handleTokenChange} />
-                    </div>
-                    <div className="flex justify-center items-end gap-4">
-                        {tokens > 0 &&
-                            <div className="flex line-through items-center text-md">
-                                <FaRupeeSign />
-                                <h1>{totalAmt}</h1>
+            /> */}
+
+            <div className="flex justify-center items-center w-full h-screen gap-20 bg-stone-800">
+                <div className="bg-orange-400 p-1 rounded-[50px] w-[35%]">
+                    <div className="bg-orange-600 p-1 rounded-[50px]">
+                        <div className="flex flex-col gap-3 bg-orange-200 rounded-[50px] p-5">
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><FaHeart className="h-6 w-6 text-red-500"/><RxCross2 className="h-5 w-5"/> 1</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 1</div>
+                                </div>
                             </div>
-                        }
-                        {tokens > 0 &&
-                            <div className="flex items-center text-4xl text-blue-600 font-bold">
-                                <FaRupeeSign />
-                                <h1>{amtWithDis}</h1>
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><FaHeart className="h-6 w-6 text-red-500"/><RxCross2 className="h-5 w-5"/> 2</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 2</div>
+                                </div>
                             </div>
-                        }
-                    </div>
-                    <div>
-                        <button onClick={handleBasic} className="w-full hover:font-semibold hover:bg-gradient-to-r from-yellow-200 to-orange-300 border border-black rounded text-center p-4">Proceed to Buy</button>
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><FaHeart className="h-6 w-6 text-red-500"/><RxCross2 className="h-5 w-5"/> 3</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 3</div>
+                                </div>
+                            </div>
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><FaHeart className="h-6 w-6 text-red-500"/><RxCross2 className="h-5 w-5"/> 4</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 4</div>
+                                </div>
+                            </div>
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><FaHeart className="h-6 w-6 text-red-500"/><RxCross2 className="h-5 w-5"/> 5</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 5</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div className="w-[40%] rounded-lg border border-blue-600 flex flex-col justify-between h-[600px] bg-orange-50 p-5">
-                    <div className="flex justify-between items-center">
-                        <div className="flex gap-2 items-center">
-                            <Image src="/advanced.png" alt="coin" width={40} height={40} />
-                            <h1 className="text-2xl font-bold">Advanced</h1>
+                <div className="bg-orange-400 p-1 rounded-[50px] w-[35%]">
+                    <div className="bg-orange-600 p-1 rounded-[50px]">
+                        <div className="flex flex-col gap-3 bg-orange-200 rounded-[50px] p-5">
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><Image src="/coin.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 1</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 1</div>
+                                </div>
+                            </div>
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><Image src="/coin.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 2</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 2</div>
+                                </div>
+                            </div>
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><Image src="/coin.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 3</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 3</div>
+                                </div>
+                            </div>
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><Image src="/coin.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 4</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 4</div>
+                                </div>
+                            </div>
+                            <div className="bg-white rounded-[40px] p-1">
+                                <div className="flex px-6 h-[60px] justify-between items-center bg-orange-300 text-black rounded-[40px]"> 
+                                    <div className="flex items-center gap-1"><Image src="/coin.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 5</div>
+                                    <div className="flex items-center gap-1"><Image src="/diamond.png" width={25} height={25} alt="diamond" /><RxCross2 className="h-5 w-5"/> 5</div>
+                                </div>
+                            </div>
                         </div>
-                        <div className="flex items-center px-2 py-1 gap-2 rounded border border-black">
-                            <Image src="/popular.png" alt="coin" width={20} height={10} />
-                            <h1 className="">Most Popular</h1>
-                        </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                        <div className="text-md font-semibold">
-                            <h1>Bulk token purchase</h1>
-                            <h1>Custom quiz generation</h1>
-                            <h1>.</h1>
-                            <h1>.</h1>
-                            <h1>.</h1>
-                        </div>
-                        <div className="">
-                            <Image src="/coins.png" alt="coins" width={140} height={140} />
-                        </div>
-                    </div>
-                    <div className="flex justify-around">
-                        <div className="flex gap-2 items-end">
-                            <h1 className="flex items-center text-4xl text-blue-600 font-bold">20</h1>
-                            <h1 className="font-semibold text-xl">coins</h1>
-                        </div>
-                        <div className="flex gap-2 items-end">
-                            <h1 className="flex items-center text-4xl text-blue-600 font-bold">50</h1>
-                            <h1 className="font-semibold text-xl">Rupees</h1>
-                        </div>
-                    </div>
-                    <div>
-                        <button onClick={handleBulk} className="hover:font-semibold hover:bg-gradient-to-r from-yellow-200 to-orange-300 w-full border border-black rounded text-center p-4">Proceed to Buy</button>
-                    </div>
-                </div>
-                <div className="w-1/3 rounded-lg border flex flex-col border-blue-600 justify-between h-[550px] bg-orange-50 p-5">
-                    <div className="flex gap-2 items-center">
-                        <Image src="/premium.png" alt="coin" width={40} height={40} />
-                        <h1 className="text-2xl font-bold">Premium</h1>
-                    </div>
-                    <div className="text-md font-semibold">
-                        <h1>Unlimited quiz generation</h1>
-                        <h1>No token limits</h1>
-                        <h1>Value for money</h1>
-                        <h1>.</h1>
-                        <h1>.</h1>
-                    </div>
-                    <div className="flex items-end justify-center">
-                        <div className="flex items-center text-4xl text-blue-600 font-bold">
-                            <FaRupeeSign />
-                            <h1>200</h1>
-                        </div>
-                        <h1 className="font-semibold text-xl">/monthly</h1>
-                    </div>
-                    <div>
-                        <button onClick={handlePremium} className="hover:font-semibold hover:bg-gradient-to-r from-yellow-200 to-orange-300 w-full border border-black rounded text-center p-4">Proceed to Buy</button>
                     </div>
                 </div>
             </div>
+           
         </>
     );
 };

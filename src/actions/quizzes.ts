@@ -69,4 +69,81 @@ export const getQuestionsBySubmoduleId = async (submoduleId: string) => {
     },
   });
   return questions;
+
+}
+
+export const updateHeartsDiamonds = async (hearts: number, diamonds: number ) => {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) {
+    return null;
+  }
+
+  
+
+  const updatedUser = await db.user.update({
+    where: {
+      id: currentUser.id,
+    },
+    data: {
+      hearts: hearts,
+      diamonds: diamonds,
+    },
+  });
+
+  return updatedUser;
+}
+
+export const updateScore = async (submoduleId: string, score: number) => {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) {
+    return null;
+  }
+
+  const updatedScore = await db.score.create({
+    data: {
+      userId: currentUser.id,
+      submoduleId: submoduleId,
+      score: score,
+    },
+  })
+  return updatedScore;
+}
+
+};
+
+export const leaderboard = async (quizId: string) => {
+  const leaderboard = await db.score.findMany({
+    where: {
+      submodule: {
+        quizId: quizId,
+      },
+    },
+    include: {
+      user: true,
+    },
+  });
+
+  let usersWithScore: any = [];
+
+  leaderboard.forEach((score) => {
+    const userIndex = usersWithScore.findIndex(
+      (user: any) => user.id === score.user.id
+    );
+
+    if (userIndex === -1) {
+      usersWithScore.push({
+        id: score.user.id,
+        name: score.user.name,
+        username: score.user.username,
+        image: score.user.image,
+        score: score.score,
+      });
+    } else {
+      usersWithScore[userIndex].score += score.score;
+    }
+  });
+
+  usersWithScore = usersWithScore.sort((a: any, b: any) => b.score - a.score);
+
+  return usersWithScore;
 };

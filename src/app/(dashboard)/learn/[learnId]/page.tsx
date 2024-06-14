@@ -1,6 +1,5 @@
 import { getModulesbyQuizId } from "@/actions/quizzes";
 import Path from "@/components/path";
-import Link from "next/link";
 import React from "react";
 
 const page = async ({ params }: { params: { learnId: string } }) => {

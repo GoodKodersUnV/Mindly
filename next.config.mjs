@@ -18,6 +18,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "tinyppt.com",
       }
+      ,{
+        protocol:"https",
+        hostname:"i.pinimg.com",
+      }
     ],
   },
 };
