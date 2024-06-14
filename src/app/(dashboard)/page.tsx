@@ -1,9 +1,92 @@
-import React from 'react'
+  "use client";
+  import { CircularProgressbarWithChildren } from "react-circular-progressbar";
+  import cn from "classnames";
+  import Link from "next/link";
+  import "react-circular-progressbar/dist/styles.css";
+  import { IoStarSharp } from "react-icons/io5";
 
-const page = () => {
-  return (
-    <div>page</div>
-  )
-}
+  const Page = () => {
+      const buttons = Array.from({ length: 8 }, (_, index) => ({
+          id: index + 1,
+          locked: index >= 3,
+      }));
 
-export default page
+      const lastUnlockedIndex = buttons.findIndex(button => button.locked);
+
+      const generateCurvedPath = (startX:any, startY:any, endX:any, endY:any) => {
+          const controlX1 = startX + (endX - startX) / 2;
+          const controlY1 = startY - 50; // Adjust this value for more curvature
+          const controlX2 = startX + (endX - startX) / 2;
+          const controlY2 = endY + 50; // Adjust this value for more curvature
+          return `M ${startX} ${startY} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${endX} ${endY}`;
+      };
+
+      return (
+          <div className="relative flex flex-col my-10 items-center gap-20">
+              {buttons.map((button, index) => (
+                  <div key={button.id} className="relative flex flex-col items-center" style={{ marginLeft: index % 2 === 0 ? "140px" : "-140px" }}>
+                      {/* Render curved path for connections */}
+                      {index >=0 && (
+                          <svg className="absolute top-0 left-1/2 transform -translate-x-1/2" width="200" height="200">
+                              <path
+                                  d={generateCurvedPath(100, 0, 100, 200)}
+                                  stroke="gray"
+                                  strokeWidth="4"
+                                  fill="none"
+                              />
+                          </svg>
+                      )}
+                      <Link
+                          href={`/button/${button.id}`}
+                          aria-disabled={button.locked}
+                          style={{ pointerEvents: button.locked ? "none" : "auto" }}
+                      >
+                          <div className="relative">
+                              <div className="h-[102px] w-[102px] relative">
+                                  {index === lastUnlockedIndex - 1 && (
+                                      button.locked ? (
+                                          <div className="absolute -top-6 left-2.5 px-3 py-2.5 border-2 font-bold uppercase text-red-500 bg-white rounded-xl animate-bounce tracking-wide z-10">
+                                              Locked
+                                              <div className="absolute left-1/2 -bottom-2 w-0 h-0 border-x-8 border-x-transparent border-t-8 transform -translate-x-1/2" />
+                                          </div>
+                                      ) : (
+                                          <div className="absolute -top-6 left-2.5 px-3 py-2.5 border-2 font-bold uppercase text-green-500 bg-white rounded-xl animate-bounce tracking-wide z-10">
+                                              Unlocked
+                                              <div className="absolute left-1/2 -bottom-2 w-0 h-0 border-x-8 border-x-transparent border-t-8 transform -translate-x-1/2" />
+                                          </div>
+                                      )
+                                  )}
+                                  <CircularProgressbarWithChildren
+                                      value={50}
+                                      styles={{
+                                          path: {
+                                              stroke: button.locked ? "#f44336" : "#4caf50",
+                                          },
+                                          trail: {
+                                              stroke: "#e5e7eb",
+                                          },
+                                      }}
+                                  >
+                                      <button className={cn(
+                                              "h-[70px] hover:h-[80px] hover:w-[80px] w-[70px] rounded-full flex justify-center items-center",
+                                              button.locked ? "bg-red-500" : "bg-green-500"
+                                          )}
+                                          disabled={button.locked}
+                                      >
+                                          <IoStarSharp className="h-9 w-9" />
+                                      </button>
+                                  </CircularProgressbarWithChildren>
+                                  {
+                                    index === lastUnlockedIndex - 1 &&
+                                    <img src="https://aaah0mnbncqtinas.public.blob.vercel-storage.com/Dglji0aVej-no-background-AgDKGZ0MQebAMVugNS3ql5mFcvMf6T.png" alt="" className="ml-10 mt-2 "/>
+                                  }
+                              </div>
+                          </div>
+                      </Link>
+                  </div>
+              ))}
+          </div>
+      );
+  };
+
+  export default Page;
