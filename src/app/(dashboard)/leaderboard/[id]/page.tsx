@@ -1,7 +1,7 @@
 import { leaderboard } from "@/actions/quizzes"
 
 const page = async (
-  params: { id: string }
+  { params }: { params: { id: string } }
 ) => {
   const leaderboardData = await leaderboard(params.id)
   return (
