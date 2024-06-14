@@ -7,7 +7,7 @@ export default async function Learn() {
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold">Begin your adventure!</h1>
-      <div className="flex flex-wrap gap-4 py-8">
+      <div className="flex flex-wrap gap-12 py-8">
         {quizzes.map((quiz) => (
           <Link
             href={`/learn/${quiz.id}`}
@@ -17,7 +17,7 @@ export default async function Learn() {
             <div className="rounded-2xl overflow-hidden">
               <img
                 src={quiz.image as string} 
-                className="w-full rounded-2xl hover:scale-110 duration-500 w-[300px] h-[200px] object-cover"
+                className=" rounded-2xl hover:scale-110 duration-500 w-[300px] h-[200px] object-cover"
                 alt="html"
               />
             </div>

@@ -1,8 +1,11 @@
 import { leaderboard } from "@/actions/quizzes";
 import Image from "next/image";
 
-const Page = async ({ params }:any) => {
-  const leaderboardData = await leaderboard(params.id);
+
+const page = async (
+  { params }: { params: { id: string } }
+) => {
+  const leaderboardData = await leaderboard(params.id)
   return (
     <div>
       {
