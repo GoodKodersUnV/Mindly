@@ -4,10 +4,20 @@ import { useState, useEffect, Suspense } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
+import toast from "react-hot-toast";
+import { GrClose } from "react-icons/gr";
 const LiveCam = dynamic(() => import("./LiveCam"), { ssr: false });
 
-
-const Quiz = ({ questions }: { questions: any[] }) => {
+const Quiz = ({
+  questions,
+  currentUser,
+  params
+}: {
+  questions: any[];
+  currentUser: any;
+  params?: {   submoduleId: string };
+}) => {
+  
   const router = useRouter();
   const [index, setIndex] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(questions[index]);
@@ -16,9 +26,10 @@ const Quiz = ({ questions }: { questions: any[] }) => {
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [lockCount, setLockCount] = useState(0);
   const [loading, setLoading] = useState(false);
-
   const [timer, setTimer] = useState(30);
   const [totalTime, setTotalTime] = useState(0);
+  const [hearts, setHearts] = useState(currentUser?.hearts);
+  const [diamonds, setDiamonds] = useState(currentUser?.diamonds);
 
   useEffect(() => {
     if (lockCount === 0) {
@@ -69,6 +80,11 @@ const Quiz = ({ questions }: { questions: any[] }) => {
   }, []);
 
   const handleNextQuestion = () => {
+    if (hearts === 0) {
+      setShowSummary(true);
+      return;
+    }
+
     if (index < questions.length - 1) {
       setIndex(index + 1);
       setCurrentQuestion(questions[index + 1]);
@@ -84,6 +100,9 @@ const Quiz = ({ questions }: { questions: any[] }) => {
       setSelectedOption(i);
       if (i === currentQuestion.answer - 1) {
         setScore(score + 1);
+        setDiamonds(diamonds + 5);
+      } else {
+        setHearts(hearts - 1);
       }
     }
   };
@@ -96,6 +115,38 @@ const Quiz = ({ questions }: { questions: any[] }) => {
     setSelectedOption(null);
     setTimer(10);
     setTotalTime(0);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      // const response = await axios.post("/api/quiz/updateHeartsDiamonds", {
+      //   hearts,
+      //   diamonds,
+      // });
+
+      const response2 = await axios.post("/api/quiz/updateScore", {
+        submoduleId: params?.submoduleId,
+        score :score*10,
+      });
+
+      toast.success("Quiz submitted successfully");
+      toast((t) => (
+        <span className=" flex items-center ">
+          ❤️ : <b>{hearts}</b> &nbsp; 💎 : <b>{diamonds}</b>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            style={{ marginLeft: "10px" }}
+            className="flex items-center justify-center border-l-2 border-gray-500 ps-2 w-6 h-8 "
+          >
+            <GrClose className=" font-bold " />
+          </button>
+        </span>
+      ));
+    } catch (e: any) {
+      toast.error("Error submitting quiz");
+      console.log(e);
+    }
   };
 
   return (
@@ -120,12 +171,13 @@ const Quiz = ({ questions }: { questions: any[] }) => {
               {currentQuestion.options.map((option: string, i: number) => (
                 <button
                   key={i}
-                  className={`${selectedOption === i
+                  className={`${
+                    selectedOption === i
                       ? i === currentQuestion.answer - 1
                         ? "bg-green-500 text-white hover:bg-green-600"
                         : "bg-red-500 text-white hover:bg-red-600"
                       : "bg-indigo-500 text-white hover:bg-indigo-600"
-                    } text-lg font-bold py-4 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105`}
+                  } text-lg font-bold py-4 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105`}
                   onClick={() => handleOptionClick(i)}
                   disabled={selectedOption !== null}
                 >
@@ -149,15 +201,25 @@ const Quiz = ({ questions }: { questions: any[] }) => {
               Your score is {score}/{questions.length}
             </p>
             <div className="flex justify-center gap-6">
-              <button
-                className="bg-red-500 text-white hover:bg-red-600 font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105"
-                onClick={handleTryAgain}
-              >
-                Try Again
-              </button>
+              {hearts !== 0 ? (
+                <button
+                  className="bg-red-500 text-white hover:bg-red-600 font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105"
+                  onClick={handleTryAgain}
+                  disabled={hearts === 0}
+                >
+                  Try Again
+                </button>
+              ) : (
+                <button
+                  className="bg-red-500 text-white hover:bg-red-600 font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105"
+                  onClick={()=>router.push("/shop")}
+                >
+                  Buy Hearts
+                </button>
+              )}
               <button
                 className="bg-green-500 text-white hover:bg-green-600 font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105"
-                onClick={() => { }}
+                onClick={handleSubmit}
               >
                 Submit
               </button>
@@ -165,11 +227,16 @@ const Quiz = ({ questions }: { questions: any[] }) => {
           </div>
         )}
       </div>
-      <div>
+      {/* <div >
         <Suspense fallback={<div>Loading...</div>}>
-          <LiveCam  lockCount={lockCount} setLockCount={setLockCount} loading={loading} setLoading={setLoading} />
+          <LiveCam
+            lockCount={lockCount}
+            setLockCount={setLockCount}
+            loading={loading}
+            setLoading={setLoading}
+          />
         </Suspense>
-      </div>
+      </div> */}
     </div>
   );
 };
