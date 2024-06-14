@@ -40,7 +40,7 @@ export default function Sidebar({ items, menu, setMenu, currentUser }: Props) {
                   onClick={() => Mobile(item.path)}
                   key={item.path}
                   className={`${
-                    pathname === item.path
+                    pathname === item.path || pathname!=='/'&&pathname?.startsWith(item.path)
                       ? "bg-blue-700 text-white"
                       : "hover:bg-secondary-500 hover:text-white"
                   } m-auto rounded md:hidden px-4 py-3 my-2 flex items-center gap-4 cursor-pointer`}
