@@ -113,7 +113,7 @@ const Premium = () => {
                 id="razorpay-checkout-js"
                 src="https://checkout.razorpay.com/v1/checkout.js"
             />
-            <div className="flex gap-8 items-center m-8 mt-12">
+            <div className="flex gap-8 items-center m-8 mt-12 dark:text-black">
                 <div className="w-1/3 rounded-lg flex flex-col justify-between border border-blue-600 h-[550px] bg-orange-50 p-5">
                     <div className="flex gap-2 items-center">
                         <Image src="/basic.png" alt="coin" width={40} height={40} />
