@@ -12,7 +12,7 @@ const Quiz = ({ questions }: { questions: any[] }) => {
   const [showSummary, setShowSummary] = useState(false);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
 
-  const [timer, setTimer] = useState(10);
+  const [timer, setTimer] = useState(10000);
   const [totalTime, setTotalTime] = useState(0);
 
   useEffect(() => {
@@ -116,13 +116,8 @@ const Quiz = ({ questions }: { questions: any[] }) => {
               ))}
             </div>
             <button
-              className={`${
-                selectedOption === null
-                  ? "bg-indigo-500 text-white hover:bg-indigo-600"
-                  : "bg-gray-400 text-white cursor-not-allowed"
-              } font-bold py-3 px-6 mt-8 rounded-lg shadow-md transition-colors duration-300 ease-in-out`}
+              className={`font-bold py-3 px-6 mt-8 rounded-lg bg-fuchsia-600 text-white hover:bg-fuchsia-700 shadow-md transition-colors duration-300 ease-in-out`}
               onClick={handleNextQuestion}
-              disabled={selectedOption === null}
             >
               Next
             </button>
