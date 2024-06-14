@@ -2,6 +2,8 @@
 import Navbar from "../navbar/Navbar";
 import Sidebar from "../sidebar/sidebar";
 import { RxDashboard } from "react-icons/rx";
+import { SiGooglegemini } from "react-icons/si";
+import { FaShop } from "react-icons/fa6";
 import { Suspense, useState } from "react";
 import Loading from "@/app/(dashboard)/loading";
 import { User } from "@/types/user";
@@ -27,12 +29,12 @@ export default function HomeLayout({
     },
     {
       name: "Ai",
-      icon: <RxDashboard />,
+      icon: <SiGooglegemini />,
       path: "/ai",
     },
     {
       name: "Shop",
-      icon: <RxDashboard />,
+      icon: <FaShop />,
       path: "/shop",
     },
   ];
