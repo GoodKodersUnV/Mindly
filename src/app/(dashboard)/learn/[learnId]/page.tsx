@@ -7,7 +7,7 @@ const page = async ({ params }: { params: { learnId: string } }) => {
   const modules = await getModulesbyQuizId(params.learnId);
   return (
     <div className="w-1/2 p-4">
-      {modules.map((module) => (
+      {modules.map((module,index) => (
         <div key={module.id}>
           <div>
             <div className="rounded-xl bg-primary-700 border-b-4 border-l-4 text-primary-200 border-primary-900 flex justify-between items-center p-4">
@@ -24,6 +24,7 @@ const page = async ({ params }: { params: { learnId: string } }) => {
             <div className="">
               <Path
                 buttons={module.submodules}
+                lastUnlockedIndex={index===2?1:5}
                 params={params}
               />
             </div>

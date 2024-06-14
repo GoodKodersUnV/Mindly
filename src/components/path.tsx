@@ -5,7 +5,7 @@ import Link from "next/link";
 import "react-circular-progressbar/dist/styles.css";
 import { IoStarSharp } from "react-icons/io5";
 
-const Path = ({buttons,params}:any) => {
+const Path = ({buttons,lastUnlockedIndex,params}:any) => {
 
 
   const generateCurvedPath = (
@@ -20,9 +20,10 @@ const Path = ({buttons,params}:any) => {
     const controlY2 = endY + 50; // Adjust this value for more curvature
     return `M ${startX} ${startY} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${endX} ${endY}`;
   };
+
   return (
-    <div className="relative flex flex-col my-20 items-center gap-20 mb-40">
-      {buttons.size===0 && <p className="text-3xl">No modules found!</p>}
+    <div className={`relative flex flex-col my-20 items-center gap-20 ${buttons.length!==0&&"mb-40"}`}>
+        {buttons.length===0 && <div className="">No modules found!</div>}
       {buttons.map((button, index) => (
         <div
           key={button.id}
@@ -45,20 +46,20 @@ const Path = ({buttons,params}:any) => {
             </svg>
           )}
           <Link
-            href={`./${params.learnId}/level/${button.id}`}
+            href={`${params.learnId}/level/${button.id}`}
             aria-disabled={button.locked}
-            style={{ pointerEvents: button.score.length==0 ? "none" : "auto" }}
+            style={{ pointerEvents: index>=lastUnlockedIndex ? "none" : "auto" }}
           >
             <div className="relative">
               <div className="h-[102px] w-[102px] relative">
-                {
-                  (button.score.length===0 ? (
-                    <div className="absolute -top-6 left-2 px-3 py-2.5 border-2 font-bold uppercase text-red-500 bg-white rounded-xl animate-bounce tracking-wide z-10">
+                {index === lastUnlockedIndex - 1 &&
+                  (index>=lastUnlockedIndex ? (
+                    <div className="absolute -top-6 left-2.5 px-3 py-2.5 border-2 font-bold uppercase text-red-500 bg-white rounded-xl animate-bounce tracking-wide z-10">
                       Locked
-                      <div className="absolute left-2 -bottom-2 w-0 h-0 border-x-8 border-x-transparent border-t-8 transform -translate-x-1/2" />
+                      <div className="absolute left-1/2 -bottom-2 w-0 h-0 border-x-8 border-x-transparent border-t-8 transform -translate-x-1/2" />
                     </div>
                   ) : (
-                    <div className="absolute -top-10 -left-2.5 px-3 py-2.5 border-2 font-bold uppercase text-green-500 bg-white rounded-xl animate-bounce tracking-wide z-10">
+                    <div className="absolute -top-6 left-2.5 px-3 py-2.5 border-2 font-bold uppercase text-green-500 bg-white rounded-xl animate-bounce tracking-wide z-10">
                       Unlocked
                       <div className="absolute left-1/2 -bottom-2 w-0 h-0 border-x-8 border-x-transparent border-t-8 transform -translate-x-1/2" />
                     </div>
@@ -67,7 +68,7 @@ const Path = ({buttons,params}:any) => {
                   value={50}
                   styles={{
                     path: {
-                      stroke: button.score.length==0 ? "#f44336" : "#4caf50",
+                      stroke: index>=lastUnlockedIndex ? "#f44336" : "#4caf50",
                     },
                     trail: {
                       stroke: "#e5e7eb",
@@ -77,13 +78,14 @@ const Path = ({buttons,params}:any) => {
                   <button
                     className={cn(
                       "h-[70px] hover:h-[80px] hover:w-[80px] w-[70px] rounded-full flex justify-center items-center",
-                      button.score.length==0 ? "bg-red-500 cursor-not-allowed" : "bg-green-500"
+                      index>=lastUnlockedIndex ? "bg-red-500" : "bg-green-500"
                     )}
+                    disabled={index>=lastUnlockedIndex}
                   >
                     <IoStarSharp className="h-9 w-9" />
                   </button>
                 </CircularProgressbarWithChildren>
-                {button.score.length!==0 && (
+                {index === lastUnlockedIndex - 1 && (
                   <img
                     src="https://aaah0mnbncqtinas.public.blob.vercel-storage.com/Dglji0aVej-no-background-AgDKGZ0MQebAMVugNS3ql5mFcvMf6T.png"
                     alt=""
