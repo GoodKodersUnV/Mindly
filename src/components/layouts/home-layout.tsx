@@ -30,6 +30,11 @@ export default function HomeLayout({
       icon: <RxDashboard />,
       path: "/ai",
     },
+    {
+      name: "Shop",
+      icon: <RxDashboard />,
+      path: "/shop",
+    },
   ];
   return (
     <div className="w-full">
