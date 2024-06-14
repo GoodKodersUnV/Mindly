@@ -70,3 +70,40 @@ export const getQuestionsBySubmoduleId = async (submoduleId: string) => {
   });
   return questions;
 };
+
+export const leaderboard = async (quizId: string) => {
+  const leaderboard = await db.score.findMany({
+    where: {
+      submodule: {
+        quizId: quizId,
+      },
+    },
+    include: {
+      user: true,
+    },
+  });
+
+  let usersWithScore: any = [];
+
+  leaderboard.forEach((score) => {
+    const userIndex = usersWithScore.findIndex(
+      (user: any) => user.id === score.user.id
+    );
+
+    if (userIndex === -1) {
+      usersWithScore.push({
+        id: score.user.id,
+        name: score.user.name,
+        username: score.user.username,
+        image: score.user.image,
+        score: score.score,
+      });
+    } else {
+      usersWithScore[userIndex].score += score.score;
+    }
+  });
+
+  usersWithScore = usersWithScore.sort((a: any, b: any) => b.score - a.score);
+
+  return usersWithScore;
+};
