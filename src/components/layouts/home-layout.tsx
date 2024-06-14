@@ -43,6 +43,11 @@ export default function HomeLayout({
       icon: <FaShop />,
       path: "/shop",
     },
+    {
+      name: "Avatar",
+      icon: <FaShop />,
+      path: "/avatar",
+    },
   ];
   return (
     <div className="w-full flex">
