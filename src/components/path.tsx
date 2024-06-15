@@ -5,6 +5,7 @@ import Link from "next/link";
 import "react-circular-progressbar/dist/styles.css";
 import { IoStarSharp } from "react-icons/io5";
 import Image from "next/image";
+import useAvatarStore from "@/hooks/useAvatarStore";
 
 const Path = ({
   buttons,
@@ -15,6 +16,7 @@ const Path = ({
   lastUnlockedIndex: number;
   params: any;
 }) => {
+  const { avatar } = useAvatarStore()
   const generateCurvedPath = (
     startX: any,
     startY: any,
@@ -121,10 +123,12 @@ const Path = ({
                     </button>
                   </CircularProgressbarWithChildren>
                   {index === lastUnlockedIndex - 1 && (
-                    <img
-                      src="https://aaah0mnbncqtinas.public.blob.vercel-storage.com/Dglji0aVej-no-background-AgDKGZ0MQebAMVugNS3ql5mFcvMf6T.png"
+                    <Image
+                      width={70}
+                      height={70}
+                      src= {avatar || "/avatar.png"}
                       alt=""
-                      className="ml-10 mt-2 "
+                      className="absolute rounded-full top-3 -right-20"
                     />
                   )}
                 </div>
