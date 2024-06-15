@@ -36,12 +36,14 @@ const Path = ({
       {buttons.length === 0 && <div className="">No modules found!</div>}
       {buttons.map((button: any) => {
         const index = button.level - 1;
+        const starcount = button.score[0]?.score / 10;
         return (
           <div
             key={button.id}
             className="relative flex flex-col items-center"
             style={{ marginLeft: index % 2 === 0 ? "140px" : "-140px" }}
           >
+            {starcount}
             {/* Render curved path for connections */}
             {index >= 0 && (
               <svg
