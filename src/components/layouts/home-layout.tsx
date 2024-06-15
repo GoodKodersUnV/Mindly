@@ -1,7 +1,7 @@
 "use client";
 import Navbar from "../navbar/Navbar";
 import Sidebar from "../sidebar/sidebar";
-import { RxDashboard } from "react-icons/rx";
+import { RxAvatar, RxDashboard } from "react-icons/rx";
 import { SiGooglegemini } from "react-icons/si";
 import { FaShop } from "react-icons/fa6";
 import { GiGraduateCap } from "react-icons/gi";
@@ -47,13 +47,13 @@ export default function HomeLayout({
     },
     {
       name: "Avatar",
-      icon: <GiClothes />,
+      icon: <RxAvatar />,
       path: "/avatar",
     },
   ];
   return (
     <div className="w-full flex">
-      <Sidebar items={items} menu={menu} setMenu={setMenu} currentUser={currentUser}/>
+      <Sidebar items={items} menu={menu} setMenu={setMenu} currentUser={currentUser} />
       <div className={`w-full`}>
         <Navbar currentUser={currentUser} menu={menu} setMenu={setMenu} />
         <Suspense fallback={<Loading />}>{children}</Suspense>

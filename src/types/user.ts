@@ -11,6 +11,10 @@ export interface User {
   password?: string;
   createdAt: Date;
   updatedAt: Date;
+  avatar?: string;
+  hearts: number;
+  diamonds: number;
+  supercoins: number;
 }
 
 export interface Profile {

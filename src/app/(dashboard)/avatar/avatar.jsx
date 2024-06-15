@@ -1,9 +1,13 @@
+"use client";
+
 import React, { useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import { Piece } from "avataaars";
 import Avatar from "avataaars";
 import map from "lodash/map";
 import options from "./options";
+import toast from "react-hot-toast";
+
 import {
   Button,
   DownloadRow,
@@ -18,12 +22,16 @@ import {
   Tab,
   Tabpane,
 } from "./style";
-import { FaDownload } from "react-icons/fa6";
+import useDiamondsStore from "@/hooks/useDiamondsStore";
+import Image from "next/image";
+import useAvatarStore from "@/hooks/useAvatarStore";
 
 export default function Avataaar(props) {
   const canvasRef = useRef(null);
   const avatarRef = useRef(null);
   const [selectedTab, setSelectedTab] = useState("top");
+  const { diamonds, setDiamonds } = useDiamondsStore();
+  const { setAvatar } = useAvatarStore();
 
   const pieceClicked = (attr, val) => {
     var newAttributes = {
@@ -35,9 +43,26 @@ export default function Avataaar(props) {
     }
   };
 
-  const triggerDownload = (imageBlob, fileName) => {
-    //change this
-    console.log(imageBlob)
+  const triggerDownload = async (imageBlob, fileName) => {
+    try {
+      if (diamonds < 20) {
+        toast.error("You need at least 20 diamonds to upload an avatar");
+        return;
+      }
+      toast.loading("Uploading avatar...");
+      const response = await fetch(`/api/avatar/upload?filename=${fileName}`, {
+        method: "POST",
+        body: imageBlob,
+      });
+      const newBlob = await response.json();
+      setAvatar(newBlob.url);
+      setDiamonds(diamonds - 20);
+      toast.dismiss();
+      toast.success("Avatar uploaded successfully");
+    } catch (error) {
+      toast.dismiss();
+      toast.error("Error uploading avatar");
+    }
   };
 
   const onDownloadPNG = () => {
@@ -172,15 +197,15 @@ export default function Avataaar(props) {
           );
         })}
       </Tabpanes>
-      <DownloadRow>
-        <Button onClick={onDownloadSVG}>
-          <FaDownload /> SVG
-        </Button>{" "}
-        <Button onClick={onDownloadPNG}>
-          <FaDownload /> PNG
-        </Button>{" "}
-      </DownloadRow>
-
+      <div
+        onClick={onDownloadSVG}
+        className="flex justify-center align-middle gap-2 w-[200px] mx-auto font-semibold bg-indigo-800 text-white p-2 rounded-lg cursor-pointer"
+      >
+        Set As Avatar
+        <div className="flex items-center gap-1 text-lg font-semibold ">
+          20 <Image src="/diamond.png" width={20} height={20} alt="diamond" />
+        </div>
+      </div>
       <canvas
         style={{ display: "none" }}
         width="528"

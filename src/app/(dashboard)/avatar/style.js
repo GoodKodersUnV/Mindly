@@ -83,6 +83,7 @@ export const Tabpane = styled.div(
     display: none;
     width: 400px;
     padding: 0 10px 10px;
+    margin-top: 20px;
     ${({ selectedTab, type }) =>
       selectedTab === type &&
       css`
@@ -93,11 +94,6 @@ export const Tabpane = styled.div(
         align-content: center;
         justify-content: center;
       `}
-  `
-);
-export const DownloadRow = styled.div(
-  () => css`
-    text-align: center;
   `
 );
 
@@ -126,6 +122,7 @@ export const Tabpanes = styled.div(
   () => css`
     box-sizing: border-box;
     display: inline-block;
+    color: black;
     width: 400px;
   `
 );
@@ -140,7 +137,6 @@ export const Button = styled.button(
     font-size: 20px;
     letter-spacing: 0.6px;
     margin: 0 5px;
-    cursor: s-resize;
     :active {
       cursor: progress;
     }
