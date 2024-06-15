@@ -6,6 +6,7 @@ import Image from "next/image";
 import useHeartsStore from "@/hooks/useHeartsStore";
 import useDiamondsStore from "@/hooks/useDiamondsStore";
 import useSuperCoinsStore from "@/hooks/useSuperCoinsStore";
+import useAvatarStore from "@/hooks/useAvatarStore";
 import { useRouter } from "next/navigation";
 interface Props {
   currentUser: User;
@@ -18,6 +19,7 @@ const Navbar: React.FC<Props> = ({ currentUser, menu, setMenu }: Props) => {
   const { hearts,setHearts } = useHeartsStore();
   const { diamonds,setDiamonds } = useDiamondsStore();
   const { superCoins,setSuperCoins} = useSuperCoinsStore()
+  const { avatar , setAvatar} = useAvatarStore()
 
 
 
@@ -25,7 +27,7 @@ const Navbar: React.FC<Props> = ({ currentUser, menu, setMenu }: Props) => {
     setHearts(currentUser?.hearts);
     setDiamonds(currentUser?.diamonds);
     setSuperCoins(currentUser?.supercoins);
-
+    setAvatar(currentUser?.avatar);
   } , []);
   
 
@@ -60,7 +62,7 @@ const Navbar: React.FC<Props> = ({ currentUser, menu, setMenu }: Props) => {
           <ThemeSwitch />
           <div>
             <Image
-              src={currentUser?.avatar || "/avatar.png"}
+              src={avatar || "/avatar.png"}
               width={40}
               height={40}
               alt="avatar"
