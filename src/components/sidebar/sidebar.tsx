@@ -50,7 +50,7 @@ export default function Sidebar({ items, menu, setMenu, currentUser }: Props) {
                 <div
                   onClick={() => Desktop(item.path)}
                   key={item.path}
-                  className={`${(pathname.startsWith(item.path) && item.path !== "/")
+                  className={`${(pathname.startsWith(item.path) && item.path !== "/") || pathname === item.path || pathname === '/' && item.path === '/'
                       ? "bg-blue-600 text-white"
                       : "hover:bg-blue-500 hover:text-white"
                     } m-auto rounded hidden md:flex px-3 py-3 my-2 items-center gap-4 cursor-pointer`}
