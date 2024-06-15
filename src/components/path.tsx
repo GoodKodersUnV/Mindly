@@ -3,6 +3,9 @@ import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import cn from "classnames";
 import Link from "next/link";
 import "react-circular-progressbar/dist/styles.css";
+import { FaRankingStar } from "react-icons/fa6";
+import { HiTrophy } from "react-icons/hi2";
+import { FaStar } from "react-icons/fa";
 import { IoStarSharp } from "react-icons/io5";
 import Image from "next/image";
 import useAvatarStore from "@/hooks/useAvatarStore";
@@ -46,22 +49,18 @@ const Path = ({
             className="relative flex flex-col items-center"
             style={{ marginLeft: index % 2 === 0 ? "140px" : "-140px" }}
           >
-            <div className="flex gap-2 rounded-full p-2">
-              {Array.from({ length: starcount }, (_, i) => (
-                <Image
-                  key={i}
-                  width={30}
-                  height={30}
-                  src="/star.png"
-                  alt=""
-                  className="h-6"
-                />
-              ))}
-            </div>
-            {/* Render curved path for connections */}
+            {
+              starcount>0&&
+              <div className="absolute top-[-30px] flex gap-1">
+                {
+                Array.from({ length: starcount }, (_, i) => (
+                  <FaStar key={i} className="h-5 w-5 text-yellow-500" />
+                ))}
+              </div>
+            }
             {index >= 0 && (
               <svg
-                className="absolute top-0 left-1/2 transform -translate-x-1/2"
+                className="absolute top-7 left-1/2 transform -translate-x-1/2"
                 width="200"
                 height="200"
               >
@@ -119,7 +118,7 @@ const Path = ({
                       )}
                       disabled={index >= lastUnlockedIndex}
                     >
-                      <IoStarSharp className="h-9 w-9" />
+                      <HiTrophy className="h-8 w-8" />
                     </button>
                   </CircularProgressbarWithChildren>
                   {index === lastUnlockedIndex - 1 && (
@@ -128,7 +127,7 @@ const Path = ({
                       height={70}
                       src= {avatar || "/avatar.png"}
                       alt=""
-                      className="absolute rounded-full top-3 -right-20"
+                      className="ml-10 mt-9"
                     />
                   )}
                 </div>
