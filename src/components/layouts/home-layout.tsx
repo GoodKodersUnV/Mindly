@@ -6,6 +6,7 @@ import { SiGooglegemini } from "react-icons/si";
 import { FaShop } from "react-icons/fa6";
 import { GiGraduateCap } from "react-icons/gi";
 import { MdOutlineLeaderboard } from "react-icons/md";
+import { GiClothes } from "react-icons/gi";
 import { Suspense, useState } from "react";
 import Loading from "@/app/(dashboard)/loading";
 import { User } from "@/types/user";
