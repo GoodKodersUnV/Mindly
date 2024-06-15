@@ -5,7 +5,6 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
-import { GrClose } from "react-icons/gr";
 import useHeartsStore from "@/hooks/useHeartsStore";
 import useDiamondsStore from "@/hooks/useDiamondsStore";
 import useSuperCoinsStore from "@/hooks/useSuperCoinsStore";

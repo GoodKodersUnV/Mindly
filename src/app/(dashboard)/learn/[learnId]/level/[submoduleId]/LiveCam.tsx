@@ -140,11 +140,7 @@ function LiveCam({
   return (
     <div>
       <div>
-        {loading && (
-          // <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-70 flex items-center justify-center">
-            <div className="text-white text-2xl">Loading...</div>
-          // </div> 
-        )}
+
         <div className="relative aspect-video w-[320px] h-[240px]">
           <Webcam
             ref={webcamRef}
@@ -153,6 +149,11 @@ function LiveCam({
             }}
             className="absolute rounded-2xl"
           />
+          {loading && (
+            <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-70 flex items-center justify-center">
+              <div className="text-white text-2xl">Loading...</div>
+            </div>
+          )}
 
           <canvas ref={canvasRef} className="absolute w-[320px] h-[240px]" />
 
