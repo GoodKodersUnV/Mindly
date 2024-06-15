@@ -26,4 +26,4 @@ const page = async (
   );
 };
 
-export default Page;
+export default page;

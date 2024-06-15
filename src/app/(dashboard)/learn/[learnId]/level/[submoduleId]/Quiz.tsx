@@ -42,6 +42,7 @@ const Quiz = ({
       return;
     }
     handleOptionClick(lockCount - 1);
+    setLockCount(0);
     setTimeout(() => {
       handleNextQuestion();
     }, 2000);
@@ -98,7 +99,7 @@ const Quiz = ({
       setIndex(index + 1);
       setCurrentQuestion(questions[index + 1]);
       setSelectedOption(null);
-      setTimer(10);
+      setTimer(30);
     } else {
       setShowSummary(true);
     }
@@ -123,7 +124,7 @@ const Quiz = ({
     setScore(0);
     setShowSummary(false);
     setSelectedOption(null);
-    setTimer(10);
+    setTimer(30);
     setTotalTime(0);
   };
 

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useRef, useState, useEffect } from "react";
 import * as handpose from "@tensorflow-models/handpose";
 import Webcam from "react-webcam";
@@ -18,6 +18,7 @@ function LiveCam({
   const [fingerCount, setFingerCount] = useState(0);
   const [mirror, setMirror] = useState(true);
   const [isCountLocked, setIsCountLocked] = useState(false);
+  const [prevCounts, setPrevCounts] = useState([]);
 
   const runHandpose = async () => {
     setLoading(true);
@@ -45,7 +46,7 @@ function LiveCam({
 
       if (hand.length > 0) {
         const count = countFingers(hand[0].landmarks);
-        setFingerCount(count);
+        updateFingerCount(count);
       } else {
         // Reset count and timer if no hand detected
         setFingerCount(0);
@@ -62,6 +63,19 @@ function LiveCam({
 
       drawHand(hand, ctx);
     }
+  };
+
+  const updateFingerCount = (count) => {
+    setPrevCounts((prev) => {
+      const newCounts = [...prev, count];
+      if (newCounts.length > 5) newCounts.shift(); // Keep the last 5 counts
+
+      const averageCount = Math.round(
+        newCounts.reduce((a, b) => a + b, 0) / newCounts.length
+      );
+      setFingerCount(averageCount);
+      return newCounts;
+    });
   };
 
   const countFingers = (landmarks) => {
@@ -113,7 +127,7 @@ function LiveCam({
     timerRef.current = setTimeout(() => {
       setLockCount(fingerCount);
       setIsCountLocked(true);
-    }, 2000);
+    }, 1500);
   };
 
   const resetLockTimer = () => {
@@ -127,9 +141,9 @@ function LiveCam({
     <div>
       <div>
         {loading && (
-          <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-70 flex items-center justify-center">
+          // <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-70 flex items-center justify-center">
             <div className="text-white text-2xl">Loading...</div>
-          </div>
+          // </div> 
         )}
         <div className="relative aspect-video w-[320px] h-[240px]">
           <Webcam
@@ -149,7 +163,7 @@ function LiveCam({
 
         <div className="text-4xl font-bold text-center text-white mt-8">
           <div>Current option: {fingerCount}</div>
-          <div>Locked option: {lockCount}</div>
+          {/* <div>Locked option: {lockCount}</div> */}
         </div>
       </div>
     </div>

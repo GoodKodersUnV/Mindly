@@ -1,12 +1,12 @@
 import { getAllQuizzes } from "@/actions/quizzes";
 import Image from "next/image";
 
-const page = async ({children}:{
-    children: React.ReactNode
+const page = async ({ children }: {
+  children: React.ReactNode
 }) => {
   const quizzes = await getAllQuizzes();
   return (
-    <div className="w-1/2 px-6">
+    <div className="w-3/4 mx-auto px-6">
       <div>
         <Image
           src="/3rd-place.png"
