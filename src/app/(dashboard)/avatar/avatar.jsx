@@ -37,6 +37,7 @@ export default function Avataaar(props) {
 
   const triggerDownload = (imageBlob, fileName) => {
     //change this
+    console.log(imageBlob)
   };
 
   const onDownloadPNG = () => {

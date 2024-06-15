@@ -1,14 +1,16 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { FaHeart } from "react-icons/fa6";
-import { IoDiamond } from "react-icons/io5";
 import Script from "next/script";
 import { RxCross2 } from "react-icons/rx";
 import toast from "react-hot-toast";
 import { buySuperCoins } from "@/actions/superCoins";
+import useHeartsStore from "@/hooks/useHeartsStore";
+import useDiamondsStore from "@/hooks/useDiamondsStore";
+import useSuperCoinsStore from "@/hooks/useSuperCoinsStore";
 
-const hearts = [1, 2, 3, 4, 5];
+
+const heartz = [1, 2, 3, 4, 5];
 
 const Premium = () => {
   const secret = 22071;
@@ -18,6 +20,10 @@ const Premium = () => {
   const name = "kalyan";
   const email = "kalyantingani@gmail.com";
   const currency = "INR";
+  const { hearts, setHearts } = useHeartsStore();
+  const { diamonds, setDiamonds } = useDiamondsStore();
+  const { superCoins, setSuperCoins } = useSuperCoinsStore();
+
   const createOrderId = async (amount: number) => {
     try {
       const response = await fetch("/api/razorpay", {
@@ -125,6 +131,8 @@ const Premium = () => {
           count,
         }),
       });
+      setHearts(hearts + count);
+      setDiamonds(diamonds - (5 * count - (count-1) * 2));
     } catch (error) {
       console.log(error);
     } finally {
@@ -133,6 +141,7 @@ const Premium = () => {
     toast.dismiss();
     toast.success(`${count} hearts added successfully`);
   };
+
   const handleCoins = async (count: any) => {
     toast.loading("Adding coins...");
     try {
@@ -145,6 +154,8 @@ const Premium = () => {
           count,
         }),
       });
+      setDiamonds(diamonds - (20 * count - (count - 1) * 2));
+      setSuperCoins(superCoins + count);
     } catch (error) {
       console.log(error);
     } finally {
@@ -159,7 +170,7 @@ const Premium = () => {
         <div className=" p-1 rounded-[50px] w-[35%]">
           <div className="p-1 rounded-[50px]">
             <div className="flex flex-col gap-3 relative bg-primary-900 border-b-4 border-l-8 border-primary-700 rounded-[50px] p-5">
-              {hearts.map((heart, index) => {
+              {heartz.map((heart : number, index:number) => {
                 return (
                   <div
                     key={index}
@@ -191,14 +202,16 @@ const Premium = () => {
                   </div>
                 );
               })}
-              <div className="bg-primary-900 border-b-2 border-l-4 border-primary-700 rounded-xl text-xl font-bold absolute -top-9 left-36 p-2 px-4">Buy Hearts</div>
+              <div className="bg-primary-900 border-b-2 border-l-4 border-primary-700 rounded-xl text-xl font-bold absolute -top-9 left-36 p-2 px-4">
+                Buy Hearts
+              </div>
             </div>
           </div>
         </div>
         <div className=" p-1 rounded-[50px] w-[35%]">
           <div className="p-1 rounded-[50px]">
             <div className="flex flex-col gap-3 bg-primary-900 relative border-b-4 border-l-8 border-primary-700 rounded-[50px] p-5">
-              {hearts.map((heart, index) => {
+              {heartz.map((heart:number, index:number) => {
                 return (
                   <div
                     key={index}
@@ -230,7 +243,9 @@ const Premium = () => {
                   </div>
                 );
               })}
-            <div className="bg-primary-900 border-b-2 border-l-4 border-primary-700 rounded-xl text-xl font-bold absolute -top-9 left-36 p-2 px-4">Buy Coins</div>
+              <div className="bg-primary-900 border-b-2 border-l-4 border-primary-700 rounded-xl text-xl font-bold absolute -top-9 left-36 p-2 px-4">
+                Buy Coins
+              </div>
             </div>
           </div>
         </div>
