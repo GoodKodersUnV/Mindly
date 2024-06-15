@@ -12,7 +12,7 @@ export default async function Learn() {
           <Link
             href={`/learn/${quiz.id}`}
             key={quiz.id}
-            className="rounded-2xl p-2 bg-primary-600 w-[300px]"
+            className="rounded-2xl p-2  bg-gradient-to-r from-blue-500 to-blue-400 w-[300px]"
           >
             <div className="rounded-2xl overflow-hidden">
               <img
