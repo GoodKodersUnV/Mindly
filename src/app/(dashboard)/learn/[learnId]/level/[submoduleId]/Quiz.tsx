@@ -253,7 +253,7 @@ const Quiz = ({
               className="mt-8 text-indigo-900"
             >
               <h2 className="text-2xl font-bold mb-4">Performance Rating</h2>
-              {wrongAnswers === 0 && (
+              {score >= 3 && (
                 <div className="flex items-center justify-center">
                   <span className="text-5xl animate-bounce">🏆</span>
                   <p className="text-3xl font-bold ml-4">
@@ -261,19 +261,19 @@ const Quiz = ({
                   </p>
                 </div>
               )}
-              {wrongAnswers === 1 && (
+              {score === 2 && (
                 <div className="flex items-center justify-center">
                   <span className="text-5xl animate-pulse">😄</span>
                   <p className="text-3xl font-bold ml-4">Good Performance!</p>
                 </div>
               )}
-              {wrongAnswers > 1 && wrongAnswers <= 3 && (
+              {score === 1 && (
                 <div className="flex items-center justify-center">
                   <span className="text-5xl animate-shake text">😕</span>
                   <p className="text-3xl font-bold ml-4">Average Performance</p>
                 </div>
               )}
-              {wrongAnswers > 3 && (
+              {score === 0 && (
                 <div className="flex items-center justify-center">
                   <span className="text-5xl animate-shake">😞</span>
                   <p className="text-3xl font-bold ml-4">Poor Performance</p>
