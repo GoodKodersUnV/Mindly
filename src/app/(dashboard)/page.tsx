@@ -6,13 +6,14 @@ import { IoGameController } from "react-icons/io5";
 const page = async () => {
   const currentUser = await getCurrentUser();
   return (
+    <div>
     <div className="h-60 bg-gradient-to-r from-blue-500 to-purple-400 m-2 rounded-lg flex justify-between items">
       <div className="p-10">
         <h1 className="text-secondary-50 font-bold text-2xl">
           Back to play {currentUser?.name} 👋
         </h1>
-        <h1 className="font-semibold mt-4 text-3xl  text-slate-200 pe-8">
-          Play. Learn. Excel: Where Gaming Meets Education!
+        <h1 className="font-semibold mt-4 text-3xl  text-slate-200 pe-8 line-clamp-4">
+          Play. Learn. Excel ..
         </h1>
       </div>
       <div className="pe-40">
@@ -47,6 +48,15 @@ const page = async () => {
         />
       </div>
     </div>
+    <div className="flex p-2 gap-2">
+          <div className="flex-1 h-[250px] rounded-lg bg-gradient-to-r from-blue-500 to-purple-400">
+
+          </div>
+          <div className="flex-1 h-[250px] rounded-lg bg-gradient-to-r from-purple-400 to-blue-500">
+
+          </div>
+      </div>
+      </div>
   );
 };
 
