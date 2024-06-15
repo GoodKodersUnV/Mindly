@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
 import { GrClose } from "react-icons/gr";
-import ConfettiExplosion from 'react-confetti-explosion';
+import Confetti from 'react-confetti'
 
 const LiveCam = dynamic(() => import("./LiveCam"), { ssr: false });
 
@@ -143,7 +143,7 @@ const Quiz = ({
       setShowConfetti(true);
       setTimeout(() => {
         setShowConfetti(false);
-      }, 5000);
+      },10000);
       const response2 = await axios.post("/api/quiz/updateScore", {
         submoduleId: params?.submoduleId,
         score: score * 10,
@@ -170,6 +170,16 @@ const Quiz = ({
 
   return (
     <div className="h-screen flex items-center justify-center gap-20">
+      {showConfetti && (
+                  <Confetti
+                  numberOfPieces={500}
+                  friction={0.99}
+                  width={1000}
+                  height={700}
+                  wind={0.5}
+                  gravity={0.99}
+                />
+          )}
       <div className="bg-white rounded-2xl shadow-2xl w-[600px] relative p-8">
         {!showSummary ? (
           <>
@@ -242,14 +252,6 @@ const Quiz = ({
               >
                 Submit
               </button>
-              {showConfetti && (
-                  <ConfettiExplosion
-                    particleCount={250}
-                    duration={3000}
-                    width={1500}
-                    force={0.8}
-                  />
-                )}
             </div>
           </div>
         )}
