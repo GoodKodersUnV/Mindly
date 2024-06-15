@@ -58,6 +58,16 @@ const Navbar: React.FC<Props> = ({ currentUser, menu, setMenu }: Props) => {
             <h1>{superCoins}</h1>
           </div>
           <ThemeSwitch />
+          <div>
+            <Image
+              src={currentUser?.avatar || "/avatar.png"}
+              width={40}
+              height={40}
+              alt="avatar"
+              className="rounded-full cursor-pointer"
+              onClick={() => setMenu(!menu)}
+            />
+          </div>
         </div>
       </div>
     </div>

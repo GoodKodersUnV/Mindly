@@ -1,9 +1,12 @@
+"use client";
+
 import React, { useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import { Piece } from "avataaars";
 import Avatar from "avataaars";
 import map from "lodash/map";
 import options from "./options";
+
 import {
   Button,
   DownloadRow,
@@ -19,6 +22,7 @@ import {
   Tabpane,
 } from "./style";
 import { FaDownload } from "react-icons/fa6";
+import toast from "react-hot-toast";
 
 export default function Avataaar(props) {
   const canvasRef = useRef(null);
@@ -35,9 +39,20 @@ export default function Avataaar(props) {
     }
   };
 
-  const triggerDownload = (imageBlob, fileName) => {
-    //change this
-    console.log(imageBlob)
+  const triggerDownload = async (imageBlob, fileName) => {
+    try {
+      toast.loading("Uploading avatar...");
+      const response = await fetch(`/api/avatar/upload?filename=${fileName}`, {
+        method: "POST",
+        body: imageBlob,
+      });
+      const newBlob = await response.json();
+      toast.dismiss();
+      toast.success("Avatar uploaded successfully");
+    } catch (error) {
+      toast.dismiss();
+      toast.error("Error uploading avatar");
+    }
   };
 
   const onDownloadPNG = () => {
@@ -65,13 +80,6 @@ export default function Avataaar(props) {
       });
     };
     img.src = url;
-  };
-
-  const onDownloadSVG = () => {
-    const svgNode = ReactDOM.findDOMNode(avatarRef.current);
-    const data = svgNode.outerHTML;
-    const svg = new Blob([data], { type: "image/svg+xml" });
-    triggerDownload(svg, "avatar.svg");
   };
 
   return (
@@ -172,15 +180,9 @@ export default function Avataaar(props) {
           );
         })}
       </Tabpanes>
-      <DownloadRow>
-        <Button onClick={onDownloadSVG}>
-          <FaDownload /> SVG
-        </Button>{" "}
-        <Button onClick={onDownloadPNG}>
-          <FaDownload /> PNG
-        </Button>{" "}
-      </DownloadRow>
-
+      <div className="flex justify-center">
+        <Button onClick={onDownloadPNG}>Set As Avatar</Button>{" "}
+      </div>
       <canvas
         style={{ display: "none" }}
         width="528"
