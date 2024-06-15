@@ -33,9 +33,6 @@ const Quiz = ({
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(30);
   const [totalTime, setTotalTime] = useState(0);
-
-  const [hearts, setHearts] = useState(currentUser?.hearts);
-  const [diamonds, setDiamonds] = useState(currentUser?.diamonds);
   const [showConfetti, setShowConfetti] = useState(false);
 
   const playWrongAudio = () => {
@@ -52,7 +49,6 @@ const Quiz = ({
   };
 
   const [wrongAnswers, setWrongAnswers] = useState(0);
-  const [setOfWrongAnswers, setSetOfWrongAnswers] = useState([]);
 
   const { hearts, setHearts } = useHeartsStore();
   const { diamonds, setDiamonds } = useDiamondsStore();
