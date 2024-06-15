@@ -122,6 +122,7 @@ export const Tabpanes = styled.div(
   () => css`
     box-sizing: border-box;
     display: inline-block;
+    color: black;
     width: 400px;
   `
 );
