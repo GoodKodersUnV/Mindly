@@ -4,6 +4,7 @@ import cn from "classnames";
 import Link from "next/link";
 import "react-circular-progressbar/dist/styles.css";
 import { IoRadioButtonOnSharp, IoStarSharp } from "react-icons/io5";
+import { FaStar } from "react-icons/fa";
 
 const Path = ({
   buttons,
@@ -43,11 +44,18 @@ const Path = ({
             className="relative flex flex-col items-center"
             style={{ marginLeft: index % 2 === 0 ? "140px" : "-140px" }}
           >
-            {starcount}
-            {/* Render curved path for connections */}
+            {
+              starcount>0&&
+              <div className="absolute top-[-30px] flex gap-1">
+                {
+                Array.from({ length: starcount }, (_, i) => (
+                  <FaStar key={i} className="h-5 w-5" />
+                ))}
+              </div>
+            }
             {index >= 0 && (
               <svg
-                className="absolute top-0 left-1/2 transform -translate-x-1/2"
+                className="absolute top-7 left-1/2 transform -translate-x-1/2"
                 width="200"
                 height="200"
               >
@@ -112,7 +120,7 @@ const Path = ({
                     <img
                       src="https://aaah0mnbncqtinas.public.blob.vercel-storage.com/Dglji0aVej-no-background-AgDKGZ0MQebAMVugNS3ql5mFcvMf6T.png"
                       alt=""
-                      className="ml-10 mt-2 "
+                      className="ml-10 mt-9"
                     />
                   )}
                 </div>
