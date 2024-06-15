@@ -123,11 +123,11 @@ const Path = ({
                   </CircularProgressbarWithChildren>
                   {index === lastUnlockedIndex - 1 && (
                     <Image
-                      width={70}
-                      height={70}
+                      width={80}
+                      height={80}
                       src= {avatar || "/avatar.png"}
                       alt=""
-                      className="ml-10 mt-9"
+                      className="ml-10 mt-10"
                     />
                   )}
                 </div>
