@@ -8,6 +8,10 @@ import toast from "react-hot-toast";
 import { GrClose } from "react-icons/gr";
 import Confetti from 'react-confetti'
 
+import useHeartsStore from "@/hooks/useHeartsStore";
+import useDiamondsStore from "@/hooks/useDiamondsStore";
+import useSuperCoinsStore from "@/hooks/useSuperCoinsStore";
+
 const LiveCam = dynamic(() => import("./LiveCam"), { ssr: false });
 
 const Quiz = ({
@@ -29,6 +33,7 @@ const Quiz = ({
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(30);
   const [totalTime, setTotalTime] = useState(0);
+
   const [hearts, setHearts] = useState(currentUser?.hearts);
   const [diamonds, setDiamonds] = useState(currentUser?.diamonds);
   const [showConfetti, setShowConfetti] = useState(false);
@@ -46,11 +51,20 @@ const Quiz = ({
     });
   };
 
+  const [wrongAnswers, setWrongAnswers] = useState(0);
+  const [setOfWrongAnswers, setSetOfWrongAnswers] = useState([]);
+
+  const { hearts, setHearts } = useHeartsStore();
+  const { diamonds, setDiamonds } = useDiamondsStore();
+  const { superCoins, setSuperCoins } = useSuperCoinsStore();
+
+
   useEffect(() => {
     if (lockCount === 0) {
       return;
     }
     handleOptionClick(lockCount - 1);
+    setLockCount(0);
     setTimeout(() => {
       handleNextQuestion();
     }, 2000);
@@ -92,6 +106,9 @@ const Quiz = ({
 
   useEffect(() => {
     handleVideoPermission();
+    if (currentUser.hearts === 0) {
+      router.push("/shop");
+    }
   }, []);
 
   const handleNextQuestion = () => {
@@ -104,7 +121,7 @@ const Quiz = ({
       setIndex(index + 1);
       setCurrentQuestion(questions[index + 1]);
       setSelectedOption(null);
-      setTimer(10);
+      setTimer(30);
     } else {
       setShowSummary(true);
     }
@@ -119,6 +136,7 @@ const Quiz = ({
         setDiamonds(diamonds + 5);
       } else {
         playWrongAudio()
+        setWrongAnswers(wrongAnswers + 1);
         setHearts(hearts - 1);
       }
     }
@@ -130,8 +148,23 @@ const Quiz = ({
     setScore(0);
     setShowSummary(false);
     setSelectedOption(null);
-    setTimer(10);
+    setTimer(30);
     setTotalTime(0);
+  };
+
+  const handleDone = async () => {
+    try { 
+      const response = await axios.post("/api/quiz/updateHeartsDiamonds", {
+        hearts,
+        diamonds,
+      });
+
+      toast("Thank You", { icon: "🤝" });
+      router.back();
+    } catch (e: any) {
+      toast.error("Error submitting quiz");
+      console.log(e);
+    }
   };
 
   const handleSubmit = async () => {
@@ -162,6 +195,7 @@ const Quiz = ({
           </button>
         </span>
       ));
+      router.back();
     } catch (e: any) {
       toast.error("Error submitting quiz");
       console.log(e);
@@ -229,7 +263,10 @@ const Quiz = ({
             <p className="text-2xl text-indigo-900 mb-8">
               Your score is {score}/{questions.length}
             </p>
-            <div className="flex justify-center gap-6">
+            <div
+              className="flex justify-center gap-6"
+              hidden={params?.submoduleId === undefined}
+            >
               {hearts !== 0 ? (
                 <button
                   className="bg-red-500 text-white hover:bg-red-600 font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105"
@@ -240,7 +277,7 @@ const Quiz = ({
                 </button>
               ) : (
                 <button
-                  className="bg-red-500 text-white hover:bg-red-600 font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105"
+                  className="bg-violet-500 text-white hover:bg-violet-600 font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105"
                   onClick={() => router.push("/shop")}
                 >
                   Buy Hearts
@@ -249,9 +286,49 @@ const Quiz = ({
               <button
                 className="bg-green-500 text-white hover:bg-green-600 font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105"
                 onClick={handleSubmit}
+                hidden={params?.submoduleId === undefined}
               >
                 Submit
               </button>
+              <button
+                className="bg-green-500 text-white hover:bg-green-600 font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105"
+                onClick={handleDone}
+                hidden={params?.submoduleId !== undefined}
+              >
+                Done
+              </button>
+            </div>
+            <div
+              hidden={currentUser.hearts === 0}
+              className="mt-8 text-indigo-900"
+            >
+              <h2 className="text-2xl font-bold mb-4">Performance Rating</h2>
+              {score >= 3 && (
+                <div className="flex items-center justify-center">
+                  <span className="text-5xl animate-bounce">🏆</span>
+                  <p className="text-3xl font-bold ml-4">
+                    Excellent Performance!
+                  </p>
+                </div>
+              )}
+              {score === 2 && (
+                <div className="flex items-center justify-center">
+                  <span className="text-5xl animate-pulse">😄</span>
+                  <p className="text-3xl font-bold ml-4">Good Performance!</p>
+                </div>
+              )}
+              {score === 1 && (
+                <div className="flex items-center justify-center">
+                  <span className="text-5xl animate-shake text">😕</span>
+                  <p className="text-3xl font-bold ml-4">Average Performance</p>
+                </div>
+              )}
+              {score === 0 && (
+                <div className="flex items-center justify-center">
+                  <span className="text-5xl animate-shake">😞</span>
+                  <p className="text-3xl font-bold ml-4">Poor Performance</p>
+                </div>
+              )}
             </div>
           </div>
         )}

@@ -3,15 +3,17 @@ import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import cn from "classnames";
 import Link from "next/link";
 import "react-circular-progressbar/dist/styles.css";
-import { IoStarSharp } from "react-icons/io5";
+import { IoRadioButtonOnSharp, IoStarSharp } from "react-icons/io5";
 
-const Path = ({ buttons, lastUnlockedIndex, params }: {
-  buttons: any,
-  lastUnlockedIndex: number,
-  params: any
+const Path = ({
+  buttons,
+  lastUnlockedIndex,
+  params,
+}: {
+  buttons: any;
+  lastUnlockedIndex: number;
+  params: any;
 }) => {
-
-
   const generateCurvedPath = (
     startX: any,
     startY: any,
@@ -19,23 +21,29 @@ const Path = ({ buttons, lastUnlockedIndex, params }: {
     endY: any
   ) => {
     const controlX1 = startX + (endX - startX) / 2;
-    const controlY1 = startY - 50; // Adjust this value for more curvature
+    const controlY1 = startY - 50;
     const controlX2 = startX + (endX - startX) / 2;
-    const controlY2 = endY + 50; // Adjust this value for more curvature
+    const controlY2 = endY + 50;
     return `M ${startX} ${startY} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${endX} ${endY}`;
   };
 
   return (
-    <div className={`relative flex flex-col my-20 items-center gap-20 ${buttons.length !== 0 && "mb-40"}`}>
+    <div
+      className={`relative flex flex-col my-20 items-center gap-20 ${
+        buttons.length !== 0 && "mb-40"
+      }`}
+    >
       {buttons.length === 0 && <div className="">No modules found!</div>}
-      {buttons.map((button) => {
+      {buttons.map((button: any) => {
         const index = button.level - 1;
+        const starcount = button.score[0]?.score / 10;
         return (
           <div
             key={button.id}
             className="relative flex flex-col items-center"
             style={{ marginLeft: index % 2 === 0 ? "140px" : "-140px" }}
           >
+            {starcount}
             {/* Render curved path for connections */}
             {index >= 0 && (
               <svg
@@ -54,10 +62,16 @@ const Path = ({ buttons, lastUnlockedIndex, params }: {
             <Link
               href={`${params.learnId}/level/${button.id}`}
               aria-disabled={button.locked}
-              style={{ pointerEvents: buttons.level >= lastUnlockedIndex ? "none" : "auto" }}
+              style={{
+                pointerEvents:
+                  buttons.level >= lastUnlockedIndex ? "none" : "auto",
+              }}
             >
               <div className="relative">
                 <div className="h-[102px] w-[102px] relative">
+                  <div className="absolute -top-14 left-2.5 rounded-xl tracking-wide z-10">
+                    
+                  </div>
                   {index === lastUnlockedIndex - 1 &&
                     (index >= lastUnlockedIndex ? (
                       <div className="absolute -top-6 left-2.5 px-3 py-2.5 border-2 font-bold uppercase text-red-500 bg-white rounded-xl animate-bounce tracking-wide z-10">
@@ -74,7 +88,8 @@ const Path = ({ buttons, lastUnlockedIndex, params }: {
                     value={50}
                     styles={{
                       path: {
-                        stroke: index >= lastUnlockedIndex ? "#f44336" : "#4caf50",
+                        stroke:
+                          index >= lastUnlockedIndex ? "#f44336" : "#4caf50",
                       },
                       trail: {
                         stroke: "#e5e7eb",
@@ -84,7 +99,9 @@ const Path = ({ buttons, lastUnlockedIndex, params }: {
                     <button
                       className={cn(
                         "h-[70px] hover:h-[80px] hover:w-[80px] w-[70px] rounded-full flex justify-center items-center",
-                        index >= lastUnlockedIndex ? "bg-red-500" : "bg-green-500"
+                        index >= lastUnlockedIndex
+                          ? "bg-red-500"
+                          : "bg-green-500"
                       )}
                       disabled={index >= lastUnlockedIndex}
                     >
@@ -102,9 +119,8 @@ const Path = ({ buttons, lastUnlockedIndex, params }: {
               </div>
             </Link>
           </div>
-        )
-      }
-      )}
+        );
+      })}
     </div>
   );
 };

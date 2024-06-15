@@ -107,7 +107,7 @@ export const updateScore = async (submoduleId: string, score: number) => {
     },
   });
   return updatedScore;
-};
+}
 
 export const leaderboard = async (quizId: string) => {
   const leaderboard = await db.score.findMany({

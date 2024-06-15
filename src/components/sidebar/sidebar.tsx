@@ -39,11 +39,10 @@ export default function Sidebar({ items, menu, setMenu, currentUser }: Props) {
                 <div
                   onClick={() => Mobile(item.path)}
                   key={item.path}
-                  className={`${
-                    pathname === item.path || pathname!=='/'&&pathname?.startsWith(item.path)
+                  className={`${pathname === item.path || pathname !== '/' && pathname?.startsWith(item.path)
                       ? "bg-blue-700 text-white"
                       : "hover:bg-secondary-500 hover:text-white"
-                  } m-auto rounded md:hidden px-4 py-3 my-2 flex items-center gap-4 cursor-pointer`}
+                    } m-auto rounded md:hidden px-4 py-3 my-2 flex items-center gap-4 cursor-pointer`}
                 >
                   <div className={`text-2xl px-1`}>{item.icon}</div>
                   <h1 className={`${!menu && "hidden"}`}>{item.name}</h1>
@@ -51,11 +50,10 @@ export default function Sidebar({ items, menu, setMenu, currentUser }: Props) {
                 <div
                   onClick={() => Desktop(item.path)}
                   key={item.path}
-                  className={`${
-                    pathname === item.path
+                  className={`${(pathname.startsWith(item.path) && item.path !== "/") || pathname === item.path || pathname === '/' && item.path === '/'
                       ? "bg-blue-600 text-white"
                       : "hover:bg-blue-500 hover:text-white"
-                  } m-auto rounded hidden md:flex px-3 py-3 my-2 items-center gap-4 cursor-pointer`}
+                    } m-auto rounded hidden md:flex px-3 py-3 my-2 items-center gap-4 cursor-pointer`}
                 >
                   <div className={`text-2xl`}>{item.icon}</div>
                   <h1 className={`pe-8`}>{item.name}</h1>

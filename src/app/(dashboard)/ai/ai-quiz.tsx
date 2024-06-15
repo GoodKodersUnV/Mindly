@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Quiz from "../learn/[learnId]/level/[submoduleId]/Quiz";
-
+import useSuperCoinsStore from "@/hooks/useSuperCoinsStore";
 
 const AiQuiz = ({ currentUser }: { currentUser: any }) => {
   const [topic, setTopic] = useState("");
@@ -14,17 +14,19 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
   const [text, setText] = useState("Generate");
   const [loading, setLoading] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
+  const { superCoins, setSuperCoins } = useSuperCoinsStore();
+
+  useEffect(() => {
+    setSuperCoins(currentUser.supercoins);
+  }, []);
 
   const handleSuperCoins = async (id: string) => {
     try {
-      console.log("supercoins before", currentUser.supercoins);
       const response = await axios.post("/api/superCoins/use", { id });
-      console.log("supercoins after", currentUser.supercoins);
-      
     } catch (error) {
       console.error("Error:", error);
     }
-  }
+  };
 
   const handleGenerate = async () => {
     if (currentUser.supercoins > 0) {
@@ -39,7 +41,7 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
         });
 
         await handleSuperCoins(currentUser.id);
-
+        setSuperCoins(superCoins - 1);
         const res = await response.data;
         const validate = res.payload
           .replace(/^```jsonn?/, "")
@@ -64,7 +66,7 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
   return (
     <div>
       {showQuiz ? (
-        <Quiz questions={response} currentUser = {currentUser} />
+        <Quiz questions={response} currentUser={currentUser} />
       ) : (
         <div className="flex h-fit gap-16 mt-16 mx-16 ">
           <div className="w-1/2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg shadow-lg p-8">
@@ -76,10 +78,11 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
                 Topic
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline transition-all duration-300 ease-in-out"
+                className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline transition-all duration-300 ease-in-out  placeholder:text-gray-800 dark:placeholder:text-white"
                 id="topic"
                 type="text"
                 value={topic}
+                disabled={loading || superCoins === 0}
                 onChange={(e) => setTopic(e.target.value)}
                 placeholder="Enter topic"
               />
@@ -96,6 +99,7 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
                 id="nQuestions"
                 type="number"
                 value={nQuestions}
+                disabled={loading || superCoins === 0}
                 onChange={(e) => setNQuestions(parseInt(e.target.value))}
                 placeholder="Enter number of questions"
               />
@@ -111,21 +115,32 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
                 className="shadow dark:bg-[#121212] appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline transition-all duration-300 ease-in-out"
                 id="difficulty"
                 value={difficulty}
+                disabled={loading || superCoins === 0}
                 onChange={(e) => setDifficulty(e.target.value)}
               >
-                <option value="easy" >Easy</option>
+                <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
                 <option value="hard">Hard</option>
               </select>
             </div>
-            <button
-              className="bg-white hover:bg-gray-200 text-purple-500 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-all duration-300 ease-in-out "
-              type="button"
-              disabled={loading}
-              onClick={handleGenerate}
-            >
-              {text}
-            </button>
+            <div className=" flex items-center justify-start">
+              <button
+                className={`bg-white hover:bg-gray-200 text-purple-500 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-all duration-300 ease-in-out ${
+                  superCoins === 0 &&
+                  "bg-gray-400 cursor-not-allowed hover:bg-gray-400 text-gray-900 opacity-80 mr-4"
+                } `}
+                type="button"
+                disabled={loading || superCoins === 0}
+                onClick={handleGenerate}
+              >
+                {text}
+              </button>
+              {superCoins === 0 && (
+                <p className="text-red-600 text-base mt-2 font-semibold">
+                  (You don't have enough supercoins!)
+                </p>
+              )}
+            </div>
           </div>
           <div className="w-1/2 flex bg-white items-center justify-center rounded-lg shadow-lg p-8">
             <img src="/ai-learning.gif" alt="AI" className="w-1/2" />
