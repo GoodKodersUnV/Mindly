@@ -3,7 +3,8 @@ import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import cn from "classnames";
 import Link from "next/link";
 import "react-circular-progressbar/dist/styles.css";
-import { IoRadioButtonOnSharp, IoStarSharp } from "react-icons/io5";
+import { IoStarSharp } from "react-icons/io5";
+import Image from "next/image";
 
 const Path = ({
   buttons,
@@ -43,7 +44,18 @@ const Path = ({
             className="relative flex flex-col items-center"
             style={{ marginLeft: index % 2 === 0 ? "140px" : "-140px" }}
           >
-            {starcount}
+            <div className="flex gap-2 rounded-full p-2">
+              {Array.from({ length: starcount }, (_, i) => (
+                <Image
+                  key={i}
+                  width={30}
+                  height={30}
+                  src="/star.png"
+                  alt=""
+                  className="h-6"
+                />
+              ))}
+            </div>
             {/* Render curved path for connections */}
             {index >= 0 && (
               <svg

@@ -165,6 +165,10 @@ const Quiz = ({
 
   const handleSubmit = async () => {
     try {
+      if(score === 0) {
+        toast.error("You can't submit a quiz with 0 score");
+        return;
+      }
       const response = await axios.post("/api/quiz/updateHeartsDiamonds", {
         hearts,
         diamonds,
