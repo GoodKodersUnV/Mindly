@@ -176,6 +176,7 @@ const Quiz = ({
       setShowConfetti(true);
       setTimeout(() => {
         setShowConfetti(false);
+        router.back();
       },10000);
       const response2 = await axios.post("/api/quiz/updateScore", {
         submoduleId: params?.submoduleId,
@@ -188,14 +189,13 @@ const Quiz = ({
           &nbsp;&nbsp;&nbsp;&nbsp;
           <button
             onClick={() => toast.dismiss(t.id)}
-            style={{ marginLeft: "10px" }}
-            className="flex items-center justify-center border-l-2 border-gray-500 ps-2 w-6 h-8"
+            className="flex items-center ml-2.5 justify-center border-l-2 border-gray-500 ps-2 w-6 h-8"
           >
             <GrClose className="font-bold" />
           </button>
         </span>
       ));
-      router.back();
+      
     } catch (e: any) {
       toast.error("Error submitting quiz");
       console.log(e);
