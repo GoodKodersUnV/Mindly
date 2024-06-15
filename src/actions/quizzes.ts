@@ -145,3 +145,24 @@ export const leaderboard = async (quizId: string) => {
 
   return usersWithScore;
 };
+
+export const getDashboardDetails = async () => {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) {
+    return null;
+  }
+  // get total score and total number of levels of current user
+  const scores = await db.score.findMany({
+    where: {
+      userId: currentUser.id,
+    }
+  });
+
+  // get total score and total number of levels of current user
+  let totalScore = 0;
+  scores.forEach((x) => {
+    totalScore += x.score;
+  });
+  const totalQuizzes = scores.length;
+  return {totalScore, totalQuizzes};
+}
