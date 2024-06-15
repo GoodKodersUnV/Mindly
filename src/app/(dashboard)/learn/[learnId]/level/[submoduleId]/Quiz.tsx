@@ -5,9 +5,13 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
+import { GrClose } from "react-icons/gr";
+import Confetti from 'react-confetti'
+
 import useHeartsStore from "@/hooks/useHeartsStore";
 import useDiamondsStore from "@/hooks/useDiamondsStore";
 import useSuperCoinsStore from "@/hooks/useSuperCoinsStore";
+
 const LiveCam = dynamic(() => import("./LiveCam"), { ssr: false });
 
 const Quiz = ({
@@ -29,12 +33,31 @@ const Quiz = ({
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(30);
   const [totalTime, setTotalTime] = useState(0);
+
+  const [hearts, setHearts] = useState(currentUser?.hearts);
+  const [diamonds, setDiamonds] = useState(currentUser?.diamonds);
+  const [showConfetti, setShowConfetti] = useState(false);
+
+  const playWrongAudio = () => {
+    const audio = new Audio("/wronganswer.mp3");
+    audio.play().catch((error) => {
+      console.error("Error playing audio:", error);
+    });
+  };
+  const playCorrectAudio = () => {
+    const audio = new Audio("/rightanswer.mp3");
+    audio.play().catch((error) => {
+      console.error("Error playing audio:", error);
+    });
+  };
+
   const [wrongAnswers, setWrongAnswers] = useState(0);
   const [setOfWrongAnswers, setSetOfWrongAnswers] = useState([]);
 
   const { hearts, setHearts } = useHeartsStore();
   const { diamonds, setDiamonds } = useDiamondsStore();
   const { superCoins, setSuperCoins } = useSuperCoinsStore();
+
 
   useEffect(() => {
     if (lockCount === 0) {
@@ -108,9 +131,11 @@ const Quiz = ({
     if (selectedOption === null) {
       setSelectedOption(i);
       if (i === currentQuestion.answer - 1) {
+        playCorrectAudio()
         setScore(score + 1);
         setDiamonds(diamonds + 5);
       } else {
+        playWrongAudio()
         setWrongAnswers(wrongAnswers + 1);
         setHearts(hearts - 1);
       }
@@ -148,13 +173,28 @@ const Quiz = ({
         hearts,
         diamonds,
       });
-
+      setShowConfetti(true);
+      setTimeout(() => {
+        setShowConfetti(false);
+      },10000);
       const response2 = await axios.post("/api/quiz/updateScore", {
         submoduleId: params?.submoduleId,
         score: score * 10,
       });
-
       toast.success("Quiz submitted successfully");
+      toast((t) => (
+        <span className="flex items-center">
+          ❤️ : <b>{hearts}</b> &nbsp; 💎 : <b>{diamonds}</b>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            style={{ marginLeft: "10px" }}
+            className="flex items-center justify-center border-l-2 border-gray-500 ps-2 w-6 h-8"
+          >
+            <GrClose className="font-bold" />
+          </button>
+        </span>
+      ));
       router.back();
     } catch (e: any) {
       toast.error("Error submitting quiz");
@@ -164,6 +204,16 @@ const Quiz = ({
 
   return (
     <div className="h-screen flex items-center justify-center gap-20">
+      {showConfetti && (
+                  <Confetti
+                  numberOfPieces={500}
+                  friction={0.99}
+                  width={1000}
+                  height={700}
+                  wind={0.5}
+                  gravity={0.99}
+                />
+          )}
       <div className="bg-white rounded-2xl shadow-2xl w-[600px] relative p-8">
         {!showSummary ? (
           <>
