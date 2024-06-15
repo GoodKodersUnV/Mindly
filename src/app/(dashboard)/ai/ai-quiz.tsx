@@ -5,6 +5,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import Quiz from "../learn/[learnId]/level/[submoduleId]/Quiz";
 import useSuperCoinsStore from "@/hooks/useSuperCoinsStore";
+import useHeartsStore from "@/hooks/useHeartsStore";
 
 const AiQuiz = ({ currentUser }: { currentUser: any }) => {
   const [topic, setTopic] = useState("");
@@ -15,9 +16,11 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
   const [loading, setLoading] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
   const { superCoins, setSuperCoins } = useSuperCoinsStore();
+  const {hearts,setHearts} = useHeartsStore();
 
   useEffect(() => {
-    setSuperCoins(currentUser.supercoins);
+    setHearts(currentUser?.hearts)
+    setSuperCoins(currentUser?.supercoins);
   }, []);
 
   const handleSuperCoins = async (id: string) => {
@@ -29,7 +32,7 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
   };
 
   const handleGenerate = async () => {
-    if (currentUser.supercoins > 0) {
+    if (currentUser?.supercoins > 0 && hearts>=nQuestions)  {
       try {
         setLoading(true);
         setText("Generating...");
@@ -59,7 +62,10 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
         toast.error("Error generating questions");
       }
     } else {
-      toast.error("You don't have enough supercoins!");
+      if(superCoins<=0)
+      toast.error("You don't have enough supercoins 🪙!");
+      if(hearts<nQuestions)
+      toast.error("You don't have enough hearts ❤️!");
     }
   };
 
@@ -97,6 +103,7 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline transition-all duration-300 ease-in-out"
                 id="nQuestions"
+                min = "1"
                 type="number"
                 value={nQuestions}
                 disabled={loading || superCoins === 0}
@@ -125,9 +132,9 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
             </div>
             <div className=" flex items-center justify-start">
               <button
-                className={`bg-white hover:bg-gray-200 text-purple-500 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-all duration-300 ease-in-out ${
-                  superCoins === 0 &&
-                  "bg-gray-400 cursor-not-allowed hover:bg-gray-400 text-gray-900 opacity-80 mr-4"
+                className={` text-purple-500 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-all duration-300 ease-in-out ${
+                  superCoins === 0 ?
+                  "bg-gray-400 cursor-not-allowed hover:bg-gray-400 text-gray-900 opacity-85 mr-4" : "bg-white hover:bg-gray-200"
                 } `}
                 type="button"
                 disabled={loading || superCoins === 0}

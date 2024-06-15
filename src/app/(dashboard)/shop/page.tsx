@@ -9,7 +9,6 @@ import useHeartsStore from "@/hooks/useHeartsStore";
 import useDiamondsStore from "@/hooks/useDiamondsStore";
 import useSuperCoinsStore from "@/hooks/useSuperCoinsStore";
 
-
 const heartz = [1, 2, 3, 4, 5];
 
 const Premium = () => {
@@ -132,14 +131,15 @@ const Premium = () => {
         }),
       });
       setHearts(hearts + count);
-      setDiamonds(diamonds - (5 * count - (count-1) * 2));
+      setDiamonds(diamonds - (5 * count - (count - 1) * 2));
     } catch (error) {
       console.log(error);
     } finally {
-      console.log("finally");
+      toast.dismiss();
+      toast(`${count} hearts added successfully`, {
+        icon: "❤️",
+      });
     }
-    toast.dismiss();
-    toast.success(`${count} hearts added successfully`);
   };
 
   const handleCoins = async (count: any) => {
@@ -159,10 +159,11 @@ const Premium = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      console.log("finally");
+      toast.dismiss();
+      toast(`${count} coins added successfully`, {
+        icon: "🪙",
+      });
     }
-    toast.dismiss();
-    toast.success(`${count} coins added successfully`);
   };
   return (
     <>
@@ -170,7 +171,7 @@ const Premium = () => {
         <div className=" p-1 rounded-[50px] w-[35%]">
           <div className="p-1 rounded-[50px]">
             <div className="flex flex-col gap-3 relative bg-primary-900 border-b-4 border-l-8 border-primary-700 rounded-[50px] p-5">
-              {heartz.map((heart : number, index:number) => {
+              {heartz.map((heart: number, index: number) => {
                 return (
                   <div
                     key={index}
@@ -211,7 +212,7 @@ const Premium = () => {
         <div className=" p-1 rounded-[50px] w-[35%]">
           <div className="p-1 rounded-[50px]">
             <div className="flex flex-col gap-3 bg-primary-900 relative border-b-4 border-l-8 border-primary-700 rounded-[50px] p-5">
-              {heartz.map((heart:number, index:number) => {
+              {heartz.map((heart: number, index: number) => {
                 return (
                   <div
                     key={index}

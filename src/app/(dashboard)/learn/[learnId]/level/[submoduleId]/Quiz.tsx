@@ -90,6 +90,9 @@ const Quiz = ({
 
   const handleNextQuestion = () => {
     if (hearts === 0) {
+      toast(`You do not have enough hearts !`, {
+        icon: "❤️",
+      });
       setShowSummary(true);
       return;
     }
@@ -128,7 +131,8 @@ const Quiz = ({
   };
 
   const handleDone = async () => {
-    try { 
+    try {
+      setLoading(true);
       const response = await axios.post("/api/quiz/updateHeartsDiamonds", {
         hearts,
         diamonds,
@@ -138,27 +142,28 @@ const Quiz = ({
       router.back();
     } catch (e: any) {
       toast.error("Error submitting quiz");
-      console.log(e);
     }
   };
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       const response = await axios.post("/api/quiz/updateHeartsDiamonds", {
         hearts,
         diamonds,
       });
 
-      const response2 = await axios.post("/api/quiz/updateScore", {
-        submoduleId: params?.submoduleId,
-        score: score * 10,
-      });
+      if (index === 5) {
+        const response2 = await axios.post("/api/quiz/updateScore", {
+          submoduleId: params?.submoduleId,
+          score: score * 10,
+        });
+      }
 
       toast.success("Quiz submitted successfully");
       router.back();
     } catch (e: any) {
       toast.error("Error submitting quiz");
-      console.log(e);
     }
   };
 
@@ -236,6 +241,7 @@ const Quiz = ({
               <button
                 className="bg-green-500 text-white hover:bg-green-600 font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105"
                 onClick={handleSubmit}
+                disabled={loading}
                 hidden={params?.submoduleId === undefined}
               >
                 Submit
@@ -243,13 +249,14 @@ const Quiz = ({
               <button
                 className="bg-green-500 text-white hover:bg-green-600 font-bold py-3 px-6 rounded-lg shadow-md transition-colors duration-300 ease-in-out transform hover:scale-105"
                 onClick={handleDone}
+                disabled={loading}
                 hidden={params?.submoduleId !== undefined}
               >
                 Done
               </button>
             </div>
             <div
-              hidden={currentUser.hearts === 0}
+              hidden={hearts === 0 && index !== 5}
               className="mt-8 text-indigo-900"
             >
               <h2 className="text-2xl font-bold mb-4">Performance Rating</h2>
@@ -284,7 +291,7 @@ const Quiz = ({
         )}
       </div>
       <div>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div className="bg-gray-950/40">Loading...</div>}>
           <LiveCam
             lockCount={lockCount}
             setLockCount={setLockCount}
