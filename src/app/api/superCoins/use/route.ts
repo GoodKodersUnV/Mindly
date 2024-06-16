@@ -1,11 +1,11 @@
 import { NextResponse,NextRequest } from "next/server";
-import { useSuperCoins } from "@/actions/superCoins";
+import { updateSuperCoins } from "@/actions/superCoins";
 
 export async function POST (req: NextRequest) {
     try{
         const { id } = await req.json();
         
-        const user = await useSuperCoins(id);
+        const user = await updateSuperCoins(id);
         
         return NextResponse.json({ message: "Success", payload: user });
     }

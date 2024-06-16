@@ -66,6 +66,7 @@ export default function Avataaar(props) {
   };
 
   const onDownloadPNG = () => {
+    // eslint-disable-next-line react/no-find-dom-node
     const svgNode = ReactDOM.findDOMNode(avatarRef.current);
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -93,6 +94,7 @@ export default function Avataaar(props) {
   };
 
   const onDownloadSVG = () => {
+    // eslint-disable-next-line react/no-find-dom-node
     const svgNode = ReactDOM.findDOMNode(avatarRef.current);
     const data = svgNode.outerHTML;
     const svg = new Blob([data], { type: "image/svg+xml" });

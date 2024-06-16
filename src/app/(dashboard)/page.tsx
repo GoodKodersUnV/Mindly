@@ -50,7 +50,7 @@ const page = async () => {
         </div>
       </div>
       <div className="flex mb-10 p-2 text-center gap-16 justify-center flex-wrap">
-          <div className="w-80 rounded-md shadow-xl p-2 bg-secondary-50 text-secondary-900">
+          <div className="w-[500px] rounded-md shadow-xl p-2 bg-secondary-50 text-secondary-900">
             <Image
               src="https://png.pngtree.com/png-clipart/20210312/original/pngtree-game-score-wood-sign-style-png-image_6072790.png"
               alt=""
@@ -65,7 +65,7 @@ const page = async () => {
               Total Score
             </h1>
           </div>
-          <div className="w-80 rounded-md shadow-xl bg-secondary-50 text-secondary-900 p-2">
+          <div className="w-[500px] rounded-md shadow-xl bg-secondary-50 text-secondary-900 p-2">
             <Image
               src="/home-quizzes.gif"
               alt=""
