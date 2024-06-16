@@ -67,7 +67,7 @@ const Navbar: React.FC<Props> = ({ currentUser, menu, setMenu }: Props) => {
               height={40}
               alt="avatar"
               className="rounded-full cursor-pointer"
-              onClick={() => setMenu(!menu)}
+              onClick={() => router.push("/avatar")}
             />
           </div>
         </div>

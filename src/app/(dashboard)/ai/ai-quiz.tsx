@@ -63,7 +63,7 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
       }
     } else {
       if(superCoins<=0)
-      toast.error("You don't have enough supercoins 🪙!");
+      toast.error("You don&apos;t have enough supercoins 🪙!");
       if(hearts<nQuestions)
       toast.error("You don't have enough hearts ❤️!");
     }
@@ -144,7 +144,7 @@ const AiQuiz = ({ currentUser }: { currentUser: any }) => {
               </button>
               {superCoins === 0 && (
                 <p className="text-red-600 text-base mt-2 font-semibold">
-                  (You don't have enough supercoins!)
+                  (You don&apos;t have enough supercoins!)
                 </p>
               )}
             </div>

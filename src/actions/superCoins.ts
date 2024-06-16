@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import getCurrentUser from "./getCurrentUser";
 
-export  const  useSuperCoins = async (id: string) => {
+export  const  updateSuperCoins = async (id: string) => {
   
   
   const user = await db.user.update({
