@@ -163,6 +163,6 @@ export const getDashboardDetails = async () => {
   scores.forEach((x) => {
     totalScore += x.score;
   });
-  const totalQuizzes = scores.length;
+  const totalQuizzes = scores.length||0;
   return {totalScore, totalQuizzes};
 }

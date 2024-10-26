@@ -7,10 +7,8 @@ import { auth } from "@/auth";
 const inter = Inter({ subsets: ["latin"] });
 import { Toaster } from "react-hot-toast";
 
-
-
 export const metadata: Metadata = {
-  title: "Mindly",
+  title: "Fun Learn",
   description: "Tutly",
   icons: {
     icon: "/images/logo2.png",
@@ -25,8 +23,9 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <SessionProvider
-      refetchInterval={5 * 60}// 5 minutes
-      session={session}>
+      refetchInterval={5 * 60} // 5 minutes
+      session={session}
+    >
       <html lang="en" className="bg-background text-foreground">
         <body className={inter.className}>
           <Toaster />

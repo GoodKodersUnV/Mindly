@@ -7,7 +7,9 @@ import { IoGameController } from "react-icons/io5";
 
 const page = async () => {
   const currentUser = await getCurrentUser();
-  const { totalScore, totalQuizzes }: any = await getDashboardDetails();
+  const dashboardData: any = await getDashboardDetails();
+  const totalScore = dashboardData?.totalScore||"";
+  const totalQuizzes = dashboardData?.totalQuizzes||"";
   return (
     <div>
       <div className="h-60 bg-gradient-to-r from-blue-500 to-purple-400 m-2 rounded-lg flex justify-between items">

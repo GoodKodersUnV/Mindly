@@ -1,6 +1,6 @@
 "use client";
 import Navbar from "../navbar/Navbar";
-import Sidebar from "../sidebar/sidebar";
+import Sidebar from "../sidebar";
 import { RxAvatar, RxDashboard } from "react-icons/rx";
 import { SiGooglegemini } from "react-icons/si";
 import { FaShop } from "react-icons/fa6";
@@ -31,25 +31,25 @@ export default function HomeLayout({
       path: "/learn",
     },
     {
-      name: "Leaderboard",
-      icon: <MdOutlineLeaderboard />,
-      path: "/leaderboard/4d51951a-01f8-4b8c-b3bd-a90513a6be29",
-    },
-    {
-      name: "Ai Quiz",
+      name: "Practice",
       icon: <SiGooglegemini />,
-      path: "/ai",
+      path: "/practice-ai",
     },
     {
-      name: "Shop",
-      icon: <FaShop />,
-      path: "/shop",
+      name: "Ask Doubt",
+      icon: <MdOutlineLeaderboard />,
+      path: "/ask-doubt",
     },
-    {
-      name: "Avatar",
-      icon: <RxAvatar />,
-      path: "/avatar",
-    },
+    // {
+    //   name: "Shop",
+    //   icon: <FaShop />,
+    //   path: "/shop",
+    // },
+    // {
+    //   name: "Avatar",
+    //   icon: <RxAvatar />,
+    //   path: "/avatar",
+    // },
   ];
   return (
     <div className="w-full flex">
@@ -61,3 +61,5 @@ export default function HomeLayout({
     </div>
   );
 }
+
+
